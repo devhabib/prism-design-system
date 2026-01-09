@@ -45,6 +45,7 @@
   // -----------------------------------------
   --color-success: #{v.$color-green-500};
   --color-error: #{v.$color-red-500};
+  --color-danger: var(--color-error); // Alias for error
 
   // -----------------------------------------
   // Typography

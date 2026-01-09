@@ -2,16 +2,21 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from './input.component';
-import { Component } from '@angular/core';
+import { ButtonComponent } from '../button/button.component';
 
 /**
  * Input Component - Form field with floating label and validation
  * 
  * Features:
  * - ControlValueAccessor for Angular Forms integration
- * - Floating label animation (CSS + JS fallback)
- * - Validation state display
+ * - Floating label animation (CSS-only using :placeholder-shown)
+ * - Validation state display via NgControl injection
  * - Prefix/Suffix slots for icons
+ * 
+ * Architecture Note:
+ * Uses @Self() @Optional() NgControl injection instead of NG_VALUE_ACCESSOR
+ * in providers to access ngControl.control.invalid and ngControl.control.touched
+ * directly for error state detection.
  */
 const meta: Meta<InputComponent> = {
   title: 'Forms/Input',
@@ -19,7 +24,7 @@ const meta: Meta<InputComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, ButtonComponent],
     }),
   ],
   argTypes: {
@@ -36,16 +41,13 @@ const meta: Meta<InputComponent> = {
     },
     errorText: {
       control: 'text',
-      description: 'Manual error message',
+      description: 'Manual error message (overrides validation errors)',
     },
     hintText: {
       control: 'text',
       description: 'Helper text below input',
     },
     required: {
-      control: 'boolean',
-    },
-    readonly: {
       control: 'boolean',
     },
   },
@@ -78,29 +80,61 @@ export const Default: Story = {
 };
 
 // ===========================================
-// With Validation (Reactive Forms)
+// Interactive Form with Validation (MAIN DEMO)
 // ===========================================
-export const WithValidation: Story = {
-  name: 'With Validation',
+export const InteractiveForm: Story = {
+  name: '🔥 Interactive Form',
   render: () => {
-    // Create form controls for the story
-    const emailControl = new FormControl('', [Validators.required, Validators.email]);
+    // Create reactive form with validators
+    const form = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    });
+
+    // Function to mark all controls as touched (simulates submit)
+    const markAllTouched = () => {
+      Object.keys(form.controls).forEach(key => {
+        form.get(key)?.markAsTouched();
+      });
+    };
 
     return {
-      props: { emailControl },
+      props: { form, markAllTouched },
       template: `
-        <div style="max-width: 320px;">
+        <form [formGroup]="form" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 360px;">
           <prism-input 
             label="Email Address" 
             type="email"
-            [formControl]="emailControl"
+            formControlName="email"
+            [required]="true"
             hintText="We'll never share your email"
           ></prism-input>
           
-          <p style="margin-top: 1rem; font-size: 0.875rem; color: #6b7280;">
-            Try typing an invalid email and clicking outside the input.
+          <prism-input 
+            label="Password" 
+            type="password"
+            formControlName="password"
+            [required]="true"
+            hintText="Minimum 8 characters"
+          ></prism-input>
+          
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <prism-button 
+              variant="primary" 
+              (click)="markAllTouched()"
+            >
+              Submit (Mark Touched)
+            </prism-button>
+            
+            <span style="font-size: 0.75rem; color: var(--color-text-secondary);">
+              Form Valid: {{ form.valid ? '✅' : '❌' }}
+            </span>
+          </div>
+          
+          <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: -0.5rem;">
+            Click "Submit" with empty fields to see validation errors
           </p>
-        </div>
+        </form>
       `,
     };
   },
@@ -131,7 +165,7 @@ export const WithPrefixIcon: Story = {
 };
 
 // ===========================================
-// With Suffix Icon (Password Toggle)
+// With Suffix Icon (Password Toggle Style)
 // ===========================================
 export const WithSuffixIcon: Story = {
   name: 'With Suffix Icon',
@@ -155,19 +189,14 @@ export const WithSuffixIcon: Story = {
 };
 
 // ===========================================
-// With Both Icons
+// With Both Icons (Currency Input)
 // ===========================================
 export const WithBothIcons: Story = {
   name: 'With Both Icons',
-  args: {
-    label: 'Amount',
-    type: 'number',
-  },
-  render: (args) => ({
-    props: args,
+  render: () => ({
     template: `
       <div style="max-width: 320px;">
-        <prism-input [label]="label" [type]="type">
+        <prism-input label="Amount" type="number">
           <span prismPrefix style="font-weight: 500; color: var(--color-text-secondary);">$</span>
           <span prismSuffix style="font-size: 0.875rem; color: var(--color-text-secondary);">USD</span>
         </prism-input>
@@ -177,26 +206,27 @@ export const WithBothIcons: Story = {
 };
 
 // ===========================================
-// Error State (Manual)
+// Error State (Manual Override)
 // ===========================================
-export const ErrorState: Story = {
-  name: 'Error State',
-  args: {
-    label: 'Username',
-    errorText: 'Username is already taken',
+export const ManualError: Story = {
+  name: 'Manual Error State',
+  render: () => {
+    const control = new FormControl('johndoe');
+    control.markAsTouched();
+
+    return {
+      props: { control },
+      template: `
+        <div style="max-width: 320px;">
+          <prism-input 
+            label="Username" 
+            [formControl]="control"
+            errorText="Username is already taken"
+          ></prism-input>
+        </div>
+      `,
+    };
   },
-  render: (args) => ({
-    props: { ...args, value: 'johndoe' },
-    template: `
-      <div style="max-width: 320px;">
-        <prism-input 
-          [label]="label" 
-          [errorText]="errorText"
-          [(ngModel)]="value"
-        ></prism-input>
-      </div>
-    `,
-  }),
 };
 
 // ===========================================
@@ -221,67 +251,20 @@ export const Disabled: Story = {
 };
 
 // ===========================================
-// Required Field
+// All Input Types
 // ===========================================
-export const Required: Story = {
-  args: {
-    label: 'Required Field',
-    required: true,
-  },
-  render: (args) => ({
-    props: args,
+export const InputTypes: Story = {
+  name: 'All Input Types',
+  render: () => ({
     template: `
-      <div style="max-width: 320px;">
-        <prism-input 
-          [label]="label" 
-          [required]="required"
-          hintText="This field is required"
-        ></prism-input>
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 320px;">
+        <prism-input label="Text" type="text"></prism-input>
+        <prism-input label="Email" type="email"></prism-input>
+        <prism-input label="Password" type="password"></prism-input>
+        <prism-input label="Number" type="number"></prism-input>
+        <prism-input label="Telephone" type="tel"></prism-input>
+        <prism-input label="Search" type="search"></prism-input>
       </div>
     `,
   }),
-};
-
-// ===========================================
-// Form Example (Multiple Inputs)
-// ===========================================
-export const FormExample: Story = {
-  name: 'Form Example',
-  render: () => {
-    const form = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-    });
-
-    return {
-      props: { form },
-      template: `
-        <form [formGroup]="form" style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 400px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <prism-input 
-              label="First Name" 
-              formControlName="firstName"
-              [required]="true"
-            ></prism-input>
-            <prism-input 
-              label="Last Name" 
-              formControlName="lastName"
-              [required]="true"
-            ></prism-input>
-          </div>
-          <prism-input 
-            label="Email" 
-            type="email"
-            formControlName="email"
-            [required]="true"
-          ></prism-input>
-          
-          <p style="font-size: 0.75rem; color: #9ca3af;">
-            Form Valid: {{ form.valid }} | Form Touched: {{ form.touched }}
-          </p>
-        </form>
-      `,
-    };
-  },
 };
