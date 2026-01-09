@@ -1,0 +1,243 @@
+// ============================================
+// Input Component Styles
+// Floating label pattern using CSS + JS fallback
+// ============================================
+
+@use '../../styles/abstracts/variables' as v;
+@use '../../styles/abstracts/mixins' as m;
+
+// Variables
+$input-height: 3.5rem;
+$input-padding-x: var(--space-md);
+$input-border-radius: var(--radius-md);
+$label-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+// Host styles
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ============================================
+// Wrapper Layout
+// ============================================
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: $input-border-radius;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  min-height: $input-height;
+
+  &:hover:not(:focus-within) {
+    border-color: var(--color-secondary);
+  }
+}
+
+// Focus state
+.input-wrapper:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+// ============================================
+// Input Field Container
+// ============================================
+.input__field {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+// ============================================
+// Native Input
+// ============================================
+.input__native {
+  width: 100%;
+  height: $input-height;
+  padding: 1.25rem $input-padding-x 0.5rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-base);
+  font-size: v.$font-size-base;
+  color: var(--color-text-primary);
+  outline: none;
+
+  &::placeholder {
+    color: transparent; // Hide placeholder for floating label effect
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-text-muted);
+  }
+
+  // Autofill styling
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+    -webkit-text-fill-color: var(--color-text-primary);
+  }
+}
+
+// ============================================
+// Floating Label
+// ============================================
+.input__label {
+  position: absolute;
+  left: $input-padding-x;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: v.$font-size-base;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  transition: 
+    transform $label-transition,
+    font-size $label-transition,
+    color $label-transition,
+    top $label-transition;
+  transform-origin: left center;
+  background: transparent;
+}
+
+// Required indicator
+.input__label--required::after {
+  content: ' *';
+  color: var(--color-error);
+}
+
+// ============================================
+// Floating Label States (CSS-only approach)
+// ============================================
+
+// Float up when input is focused
+.input__native:focus ~ .input__label {
+  top: 0.75rem;
+  transform: translateY(0);
+  font-size: v.$font-size-xs;
+  color: var(--color-primary);
+}
+
+// Float up when input has content (using :not(:placeholder-shown))
+.input__native:not(:placeholder-shown) ~ .input__label {
+  top: 0.75rem;
+  transform: translateY(0);
+  font-size: v.$font-size-xs;
+}
+
+// JS fallback: Float via host class
+:host(.prism-input--focused) .input__label,
+:host(.prism-input--has-value) .input__label {
+  top: 0.75rem;
+  transform: translateY(0);
+  font-size: v.$font-size-xs;
+}
+
+:host(.prism-input--focused) .input__label {
+  color: var(--color-primary);
+}
+
+// ============================================
+// Prefix & Suffix Slots
+// ============================================
+.input__prefix,
+.input__suffix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-sm);
+  color: var(--color-text-secondary);
+
+  &:empty {
+    display: none;
+  }
+
+  // Icon sizing
+  ::ng-deep {
+    svg, img {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+}
+
+.input__prefix {
+  padding-left: $input-padding-x;
+  padding-right: 0;
+
+  // Adjust input padding when prefix exists
+  & + .input__field .input__native {
+    padding-left: var(--space-sm);
+  }
+
+  // Adjust label position when prefix exists
+  & + .input__field .input__label {
+    left: var(--space-sm);
+  }
+}
+
+.input__suffix {
+  padding-right: $input-padding-x;
+  padding-left: 0;
+}
+
+// ============================================
+// Error State
+// ============================================
+:host(.prism-input--error) {
+  .input-wrapper {
+    border-color: var(--color-error);
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    }
+  }
+
+  .input__label {
+    color: var(--color-error);
+  }
+
+  .input__native:focus ~ .input__label {
+    color: var(--color-error);
+  }
+}
+
+.input__error {
+  margin-top: var(--space-xs);
+  font-size: v.$font-size-sm;
+  color: var(--color-error);
+  @include m.typography('sm', 'normal');
+}
+
+// ============================================
+// Hint Text
+// ============================================
+.input__hint {
+  margin-top: var(--space-xs);
+  font-size: v.$font-size-sm;
+  color: var(--color-text-secondary);
+}
+
+// ============================================
+// Disabled State
+// ============================================
+:host(.prism-input--disabled) {
+  .input-wrapper {
+    background-color: var(--color-surface-elevated);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .input__label {
+    color: var(--color-text-muted);
+  }
+}
+
+// ============================================
+// Responsive
+// ============================================
+@include m.respond-to('sm') {
+  // Adjust for larger screens if needed
+}

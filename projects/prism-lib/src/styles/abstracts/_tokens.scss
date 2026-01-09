@@ -1,0 +1,102 @@
+@use 'variables' as v;
+
+// ============================================
+// Semantic Design Tokens - These ARE used in components
+// Maps primitives to meaningful names with CSS Custom Properties
+// ============================================
+
+:root {
+  // -----------------------------------------
+  // Primary Action Colors
+  // -----------------------------------------
+  --color-primary: #{v.$color-blue-600};
+  --color-primary-hover: #{v.$color-blue-700};
+  --color-primary-light: #{v.$color-blue-100};
+  
+  // -----------------------------------------
+  // Secondary/Neutral Colors
+  // -----------------------------------------
+  --color-secondary: #{v.$color-gray-700};
+  --color-secondary-hover: #{v.$color-gray-800};
+
+  // -----------------------------------------
+  // Surface/Background Colors
+  // -----------------------------------------
+  --color-surface: #{v.$color-white};
+  --color-surface-elevated: #{v.$color-gray-50};
+  --color-background: #{v.$color-gray-100};
+
+  // -----------------------------------------
+  // Text Colors
+  // -----------------------------------------
+  --color-text-primary: #{v.$color-gray-900};
+  --color-text-secondary: #{v.$color-gray-700};
+  --color-text-muted: #{v.$color-gray-200};
+  --color-text-inverse: #{v.$color-white};
+
+  // -----------------------------------------
+  // Border Colors
+  // -----------------------------------------
+  --color-border: #{v.$color-gray-200};
+  --color-border-focus: #{v.$color-blue-500};
+
+  // -----------------------------------------
+  // Feedback Colors
+  // -----------------------------------------
+  --color-success: #{v.$color-green-500};
+  --color-error: #{v.$color-red-500};
+
+  // -----------------------------------------
+  // Typography
+  // -----------------------------------------
+  --font-family-base: #{v.$font-family-sans};
+  --font-family-code: #{v.$font-family-mono};
+
+  // -----------------------------------------
+  // Spacing (Semantic)
+  // -----------------------------------------
+  --space-xs: #{v.$spacing-1};
+  --space-sm: #{v.$spacing-2};
+  --space-md: #{v.$spacing-4};
+  --space-lg: #{v.$spacing-6};
+  --space-xl: #{v.$spacing-8};
+
+  // -----------------------------------------
+  // Border Radius
+  // -----------------------------------------
+  --radius-sm: #{v.$radius-sm};
+  --radius-md: #{v.$radius-md};
+  --radius-lg: #{v.$radius-lg};
+  --radius-full: #{v.$radius-full};
+
+  // -----------------------------------------
+  // Shadows
+  // -----------------------------------------
+  --shadow-sm: #{v.$shadow-sm};
+  --shadow-md: #{v.$shadow-md};
+  --shadow-lg: #{v.$shadow-lg};
+
+  // -----------------------------------------
+  // Transitions
+  // -----------------------------------------
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+}
+
+// ============================================
+// Dark Mode Override
+// ============================================
+[data-theme='dark'] {
+  --color-primary: #{v.$color-blue-500};
+  --color-primary-hover: #{v.$color-blue-600};
+  
+  --color-surface: #{v.$color-gray-900};
+  --color-surface-elevated: #{v.$color-gray-800};
+  --color-background: #{v.$color-black};
+
+  --color-text-primary: #{v.$color-gray-50};
+  --color-text-secondary: #{v.$color-gray-200};
+  --color-text-muted: #{v.$color-gray-700};
+
+  --color-border: #{v.$color-gray-700};
+}

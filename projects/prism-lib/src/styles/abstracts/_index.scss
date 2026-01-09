@@ -1,0 +1,5 @@
+// Forward index for abstracts
+// Allows consumers to: @use 'abstracts' as *;
+@forward 'variables';
+@forward 'tokens';
+@forward 'mixins';

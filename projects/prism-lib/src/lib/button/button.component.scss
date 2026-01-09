@@ -1,0 +1,140 @@
+// ============================================
+// Button Component Styles
+// Uses semantic tokens ONLY - no hardcoded values allowed
+// ============================================
+
+.button {
+  // Base styles
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+  font-family: var(--font-family-base);
+
+  // Accessibility: Visible focus state
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  // Disabled state
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ============================================
+// Size Variants
+// ============================================
+:host(.prism-button--sm) .button {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
+  min-height: 2rem;
+}
+
+:host(.prism-button--md) .button {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 1rem;
+  min-height: 2.5rem;
+}
+
+:host(.prism-button--lg) .button {
+  padding: var(--space-md) var(--space-lg);
+  font-size: 1.125rem;
+  min-height: 3rem;
+}
+
+// ============================================
+// Color Variants
+// ============================================
+
+// Primary - Main call-to-action
+:host(.prism-button--primary) .button {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+// Secondary - Neutral actions
+:host(.prism-button--secondary) .button {
+  background-color: var(--color-secondary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-secondary-hover);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+// Outline - Bordered with transparent background
+:host(.prism-button--outline) .button {
+  background-color: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-surface-elevated);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+// Ghost - Minimal, no border
+:host(.prism-button--ghost) .button {
+  background-color: transparent;
+  color: var(--color-text-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-surface-elevated);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+// ============================================
+// Loading State
+// ============================================
+.button__spinner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-icon {
+  width: 1.25em;
+  height: 1.25em;
+  animation: spin 1s linear infinite;
+}
+
+.button__content--hidden {
+  visibility: hidden;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

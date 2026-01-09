@@ -1,0 +1,200 @@
+// ============================================
+// Card Component Styles
+// Uses semantic tokens and elevation mixins
+// ============================================
+
+@use '../../styles/abstracts/mixins' as m;
+@use '../../styles/abstracts/variables' as v;
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-normal);
+}
+
+// ============================================
+// Elevation Levels (0-5)
+// ============================================
+:host(.prism-card--elevation-0) .card {
+  box-shadow: none;
+}
+
+:host(.prism-card--elevation-1) .card {
+  @include m.elevation(1);
+}
+
+:host(.prism-card--elevation-2) .card {
+  @include m.elevation(2);
+}
+
+:host(.prism-card--elevation-3) .card {
+  @include m.elevation(3);
+}
+
+:host(.prism-card--elevation-4) .card {
+  @include m.elevation(4);
+}
+
+:host(.prism-card--elevation-5) .card {
+  @include m.elevation(5);
+}
+
+// ============================================
+// Hoverable State (lift animation)
+// ============================================
+:host(.prism-card--hoverable) .card {
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    @include m.elevation(4);
+    border-color: var(--color-primary-light);
+  }
+
+  &:active {
+    transform: translateY(-2px);
+    @include m.elevation(3);
+  }
+}
+
+// ============================================
+// Slot Styles
+// ============================================
+
+// Media: Full-width images with aspect ratio support
+.card__media {
+  width: 100%;
+  overflow: hidden;
+
+  &:empty {
+    display: none;
+  }
+
+  // Images inside media get proper sizing
+  ::ng-deep {
+    img, video {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    // Aspect ratio classes
+    [data-aspect="16:9"] {
+      @include m.aspect-ratio(16, 9);
+    }
+
+    [data-aspect="4:3"] {
+      @include m.aspect-ratio(4, 3);
+    }
+
+    [data-aspect="1:1"] {
+      @include m.aspect-ratio(1, 1);
+    }
+
+    [data-aspect="21:9"] {
+      @include m.aspect-ratio(21, 9);
+    }
+  }
+}
+
+// Header: Title and metadata area
+.card__header {
+  padding: var(--space-md) var(--space-md) 0;
+
+  &:empty {
+    display: none;
+  }
+
+  ::ng-deep {
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+      color: var(--color-text-primary);
+      @include m.typography('lg', 'semibold');
+    }
+
+    .subtitle {
+      color: var(--color-text-secondary);
+      @include m.typography('sm', 'normal');
+      margin-top: var(--space-xs);
+    }
+  }
+}
+
+// Body: Main content area
+.card__body {
+  padding: var(--space-md);
+  flex: 1;
+  color: var(--color-text-secondary);
+
+  &:empty {
+    display: none;
+  }
+
+  ::ng-deep {
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    p + p {
+      margin-top: var(--space-sm);
+    }
+  }
+}
+
+// Actions: Buttons at the bottom
+.card__actions {
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+
+  &:empty {
+    display: none;
+  }
+}
+
+// No padding variant
+:host(.prism-card--no-padding) {
+  .card__header,
+  .card__body,
+  .card__actions {
+    padding: 0;
+  }
+
+  .card__actions {
+    border-top: none;
+  }
+}
+
+// ============================================
+// Responsive Adjustments
+// ============================================
+@include m.respond-to('sm') {
+  .card__actions {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: #{v.$breakpoint-sm - 1}) {
+  .card__header,
+  .card__body {
+    padding: var(--space-sm);
+  }
+
+  .card__actions {
+    padding: var(--space-xs) var(--space-sm) var(--space-sm);
+    flex-direction: column;
+
+    ::ng-deep > * {
+      width: 100%;
+    }
+  }
+}

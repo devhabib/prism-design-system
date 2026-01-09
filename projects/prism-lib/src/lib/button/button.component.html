@@ -1,0 +1,25 @@
+<button
+  class="button"
+  [disabled]="disabled || loading"
+  [attr.aria-busy]="loading"
+  [attr.aria-disabled]="disabled"
+>
+  <!-- Loading Spinner - Shown when loading is true -->
+  <span *ngIf="loading" class="button__spinner" aria-hidden="true">
+    <svg class="spinner-icon" viewBox="0 0 24 24" fill="none">
+      <circle 
+        cx="12" 
+        cy="12" 
+        r="10" 
+        stroke="currentColor" 
+        stroke-width="3" 
+        stroke-dasharray="31.4 31.4" 
+      />
+    </svg>
+  </span>
+  
+  <!-- Content Projection - Allows icons, text, or any content -->
+  <span class="button__content" [class.button__content--hidden]="loading">
+    <ng-content></ng-content>
+  </span>
+</button>

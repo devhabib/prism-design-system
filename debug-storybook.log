@@ -1,0 +1,20 @@
+[13:15:31.447] [INFO] storybook v10.1.11
+[13:15:31.681] [DEBUG] Getting package.json info for /Users/habib/Documents/development/Fun Projects/prism/package.json...
+[13:15:32.269] [INFO] Starting...
+[13:15:32.340] [DEBUG] Starting preview..
+[13:15:32.343] [INFO] Using implicit CSS loaders
+[13:15:32.344] [ERROR] Failed to build the preview
+[13:15:32.345] [ERROR] [38;2;241;97;97mSB_FRAMEWORK_ANGULAR_0001 (AngularLegacyBuildOptionsError): Your Storybook startup script uses a solution that is not supported anymore.
+You must use Angular builder to have an explicit configuration on the project used in angular.json.
+
+Please run 'npx storybook automigrate' to automatically fix your config.
+
+More info: 
+	- https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#angular-drop-support-for-calling-storybook-directly
+	- https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular#how-do-i-migrate-to-an-angular-storybook-builder
+[39m
+    at checkForLegacyBuildOptions (file:///Users/habib/Documents/development/Fun%20Projects/prism/node_modules/@storybook/angular/dist/server/framework-preset-angular-cli.js:310:11)
+    at Object.webpackFinal (file:///Users/habib/Documents/development/Fun%20Projects/prism/node_modules/@storybook/angular/dist/server/framework-preset-angular-cli.js:244:3)
+    at file:///Users/habib/Documents/development/Fun%20Projects/prism/node_modules/storybook/dist/_node-chunks/chunk-Q4DOC7HF.js:10134:36
+[13:15:32.346] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

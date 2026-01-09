@@ -1,0 +1,13 @@
+{
+  "extends": "../projects/showcase-app/tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noImplicitAny": false,
+    "moduleResolution": "bundler"
+  },
+  "include": [
+    "./**/*.ts",
+    "../projects/prism-lib/src/**/*.stories.ts"
+  ],
+  "exclude": ["../node_modules"]
+}

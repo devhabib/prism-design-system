@@ -1,0 +1,62 @@
+<div class="input-wrapper">
+  <!-- Prefix Slot (leading icon) -->
+  <div class="input__prefix">
+    <ng-content select="[prismPrefix]"></ng-content>
+  </div>
+
+  <!-- Input Field -->
+  <div class="input__field">
+    <input
+      #inputElement
+      class="input__native"
+      [type]="type"
+      [id]="inputId"
+      [name]="name"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [autocomplete]="autocomplete"
+      [attr.aria-invalid]="hasError"
+      [attr.aria-describedby]="hasError ? inputId + '-error' : hintText ? inputId + '-hint' : null"
+      [attr.required]="required ? true : null"
+      (input)="onInputChange($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+    
+    <!-- Floating Label -->
+    <label 
+      *ngIf="label" 
+      class="input__label" 
+      [for]="inputId"
+      [class.input__label--required]="required"
+    >
+      {{ label }}
+    </label>
+  </div>
+
+  <!-- Suffix Slot (trailing icon) -->
+  <div class="input__suffix">
+    <ng-content select="[prismSuffix]"></ng-content>
+  </div>
+</div>
+
+<!-- Error Message -->
+<div 
+  *ngIf="hasError && displayError" 
+  class="input__error"
+  [id]="inputId + '-error'"
+  role="alert"
+>
+  {{ displayError }}
+</div>
+
+<!-- Hint Text -->
+<div 
+  *ngIf="hintText && !hasError" 
+  class="input__hint"
+  [id]="inputId + '-hint'"
+>
+  {{ hintText }}
+</div>

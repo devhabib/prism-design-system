@@ -1,0 +1,16 @@
+// ============================================
+// Prism Design System - Main Stylesheet
+// Entry point for all SCSS modules
+// ============================================
+
+// ---------------------------------------------
+// Abstracts (no CSS output, only SCSS tools)
+// ---------------------------------------------
+@use 'abstracts/variables' as *;
+@use 'abstracts/tokens';     // Generates CSS Custom Properties
+@use 'abstracts/mixins' as *;
+
+// ---------------------------------------------
+// Base (global reset and typography)
+// ---------------------------------------------
+@use 'base/reset';
