@@ -1,59 +1,170 @@
-# Prism
+# Prism Design System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+![Angular](https://img.shields.io/badge/Angular-19+-DD0031?style=flat-square&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Storybook](https://img.shields.io/badge/Storybook-8.0-FF4785?style=flat-square&logo=storybook&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## Development server
+> An enterprise-grade, accessible component library built to demonstrate advanced Angular patterns and modern SCSS architecture.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## ✨ Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **4 Production-Ready Components** — Button, Card, Input, Table
+- **Full Reactive Forms Support** — ControlValueAccessor implementation
+- **Theming via CSS Custom Properties** — Easy customization
+- **Storybook Documentation** — Interactive component playground
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🏗️ Architecture Highlights
 
-```bash
-ng generate component component-name
-```
+| Pattern | Implementation |
+|---------|----------------|
+| **ControlValueAccessor** | `PrismInput` integrates seamlessly with `[formControl]` and `[(ngModel)]` using `@Self() @Optional() NgControl` injection |
+| **SCSS 7-1 Pattern** | Organized abstracts (`_variables`, `_tokens`, `_mixins`) with CSS Custom Properties for theming |
+| **Content Projection** | `PrismCard` uses multi-slot projection (`prism-card-header`, `prism-card-body`, `prism-card-actions`) |
+| **Generic Data Tables** | `PrismTable` accepts `TableColumn[]` config with `TemplateRef` support for custom cell rendering |
+| **Dumb Pagination** | Table exposes `pageChange` output — parent handles logic |
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🚀 Quick Start
 
 ```bash
-ng test
+# Clone and install
+git clone https://github.com/devhabib/prism-design-system.git
+cd prism-design-system
+npm install
+
+# Run Storybook
+npm run storybook
+# → http://localhost:6006
+
+# Build the library
+npm run build:lib
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 📦 Installation (in your project)
 
 ```bash
-ng e2e
+npm install prism-lib
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+```typescript
+// app.config.ts or standalone component
+import { ButtonComponent, CardComponent, InputComponent, TableComponent } from 'prism-lib';
 
-## Additional Resources
+@Component({
+  standalone: true,
+  imports: [ButtonComponent, CardComponent, InputComponent, TableComponent],
+  // ...
+})
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🎨 Component Showcase
+
+### Button
+
+```html
+<prism-button variant="primary" size="md">Submit</prism-button>
+<prism-button variant="outline" [loading]="true">Loading...</prism-button>
+```
+
+### Card (Content Projection)
+
+```html
+<prism-card [elevation]="2" [hoverable]="true">
+  <prism-card-header>
+    <h3>Card Title</h3>
+  </prism-card-header>
+  <prism-card-body>
+    <p>Card content goes here.</p>
+  </prism-card-body>
+  <prism-card-actions>
+    <prism-button variant="primary">Action</prism-button>
+  </prism-card-actions>
+</prism-card>
+```
+
+### Input (Reactive Forms)
+
+```html
+<prism-input 
+  label="Email" 
+  type="email"
+  [formControl]="emailControl"
+>
+  <svg prismPrefix><!-- icon --></svg>
+</prism-input>
+```
+
+### Table (Custom Templates)
+
+```html
+<!-- Define status badge template -->
+<ng-template #statusBadge let-row>
+  <span class="badge" [class.active]="row.status === 'Active'">
+    {{ row.status }}
+  </span>
+</ng-template>
+
+<!-- Use in table -->
+<prism-table 
+  [data]="users" 
+  [columns]="[
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'status', label: 'Status', template: statusBadge }
+  ]"
+  [showPagination]="true"
+  [totalItems]="100"
+  [pageSize]="10"
+  (pageChange)="onPageChange($event)"
+></prism-table>
+```
+
+---
+
+## 📁 Project Structure
+
+```
+prism/
+├── projects/
+│   ├── prism-lib/           # Component library
+│   │   ├── src/lib/
+│   │   │   ├── button/
+│   │   │   ├── card/
+│   │   │   ├── input/
+│   │   │   └── table/
+│   │   └── src/styles/      # SCSS 7-1 architecture
+│   │       ├── abstracts/   # _variables, _tokens, _mixins
+│   │       └── base/        # _reset
+│   └── showcase-app/        # Demo application
+└── .storybook/              # Storybook configuration
+```
+
+---
+
+## 🛠️ Development
+
+```bash
+# Run tests
+npm test
+
+# Build production library
+npm run build:lib
+
+# Lint
+npm run lint
+```
+
+---
+
+## 📄 License
+
+MIT © 2026 Habib
