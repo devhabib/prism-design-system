@@ -6,6 +6,7 @@
 export * from './lib/button';
 export * from './lib/card';
 export * from './lib/input';
+export * from './lib/table';
 
 // Note: To use the styles, import in your application's styles:
 // @use 'prism-lib/src/styles/main.scss';

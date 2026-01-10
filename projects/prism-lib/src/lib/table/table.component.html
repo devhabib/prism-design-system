@@ -1,0 +1,99 @@
+<div class="table-container" [class.table--loading]="loading">
+  <!-- Loading Overlay -->
+  <div *ngIf="loading" class="table__loading">
+    <div class="table__spinner"></div>
+  </div>
+
+  <table 
+    class="table"
+    [class.table--striped]="striped"
+    [class.table--hoverable]="hoverable"
+    [class.table--compact]="compact"
+  >
+    <!-- Table Header -->
+    <thead class="table__head">
+      <tr>
+        <th 
+          *ngFor="let column of columns"
+          class="table__header"
+          [class.table__header--sortable]="column.sortable"
+          [class.table__header--sorted]="currentSort.column === column.key"
+          [style.width]="column.width"
+          [style.text-align]="column.align || 'left'"
+          (click)="onHeaderClick(column)"
+        >
+          <span class="table__header-content">
+            {{ column.label }}
+            
+            <!-- Sort Indicator -->
+            <span *ngIf="column.sortable" class="table__sort-icon" [ngClass]="getSortClass(column)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7" *ngIf="currentSort.column === column.key && currentSort.direction === 'desc'"/>
+                <path d="M12 19V5M5 12l7-7 7 7" *ngIf="currentSort.column === column.key && currentSort.direction === 'asc'"/>
+                <path d="M8 10l4-4 4 4M8 14l4 4 4-4" *ngIf="currentSort.column !== column.key || !currentSort.direction"/>
+              </svg>
+            </span>
+          </span>
+        </th>
+      </tr>
+    </thead>
+
+    <!-- Table Body -->
+    <tbody class="table__body">
+      <!-- Empty State -->
+      <tr *ngIf="data.length === 0 && !loading" class="table__empty-row">
+        <td [attr.colspan]="columns.length" class="table__empty">
+          {{ emptyMessage }}
+        </td>
+      </tr>
+
+      <!-- Data Rows -->
+      <tr 
+        *ngFor="let row of data; trackBy: trackBy; let i = index"
+        class="table__row"
+        (click)="onRowClick(row)"
+      >
+        <td 
+          *ngFor="let column of columns"
+          class="table__cell"
+          [style.text-align]="column.align || 'left'"
+        >
+          <!-- Magic: Check if column has custom template -->
+          <ng-container *ngIf="column.template; else defaultCell">
+            <!-- YES: Use *ngTemplateOutlet with row as $implicit context -->
+            <ng-container *ngTemplateOutlet="column.template; context: { $implicit: row, row: row, value: getCellValue(row, column), index: i }">
+            </ng-container>
+          </ng-container>
+          
+          <!-- NO: Display text value using interpolation -->
+          <ng-template #defaultCell>
+            {{ getCellValue(row, column) }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="showPagination && totalItems > 0" class="table__pagination">
+    <button 
+      class="table__pagination-btn"
+      [disabled]="!canGoPrevious"
+      (click)="goToPrevious()"
+    >
+      Previous
+    </button>
+    
+    <span class="table__pagination-info">
+      Page {{ currentPage }} of {{ totalPages }}
+    </span>
+    
+    <button 
+      class="table__pagination-btn"
+      [disabled]="!canGoNext"
+      (click)="goToNext()"
+    >
+      Next
+    </button>
+  </div>
+</div>
