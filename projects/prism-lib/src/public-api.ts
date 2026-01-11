@@ -19,6 +19,8 @@ export * from './lib/alert';
 export * from './lib/checkbox';
 export * from './lib/badge';
 export * from './lib/chart';
+export * from './lib/skeleton';
+export * from './lib/pagination';
 
 
 // Note: To use the styles, import in your application's styles:

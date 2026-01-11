@@ -9,6 +9,8 @@ import {
   GridComponent,
   GridItemComponent,
   CardComponent,
+  PrismSkeletonComponent,
+  PrismPaginationComponent,
 } from 'prism-lib';
 import { UserDialogComponent } from './user-dialog.component';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog.component';
@@ -34,6 +36,8 @@ interface User {
     GridComponent,
     GridItemComponent,
     CardComponent,
+    PrismSkeletonComponent,
+    PrismPaginationComponent,
     AddUserDrawerComponent,
   ],
   template: `
