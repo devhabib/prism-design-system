@@ -15,6 +15,8 @@ export * from './lib/drawer';
 export * from './lib/avatar';
 export * from './lib/toggle';
 export * from './lib/tabs';
+export * from './lib/alert';
+export * from './lib/checkbox';
 
 
 // Note: To use the styles, import in your application's styles:
