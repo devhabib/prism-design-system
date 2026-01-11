@@ -23,6 +23,9 @@ export * from './lib/skeleton';
 export * from './lib/pagination';
 export * from './lib/tooltip';
 export * from './lib/menu';
+export * from './lib/breadcrumbs';
+export * from './lib/empty-state';
+export * from './lib/search-input';
 
 
 // Note: To use the styles, import in your application's styles:

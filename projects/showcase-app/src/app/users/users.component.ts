@@ -11,6 +11,9 @@ import {
   CardComponent,
   PrismSkeletonComponent,
   PrismPaginationComponent,
+  PrismBreadcrumbsComponent,
+  PrismSearchInputComponent,
+  PrismEmptyStateComponent,
 } from 'prism-lib';
 import { UserDialogComponent } from './user-dialog.component';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog.component';
@@ -38,10 +41,16 @@ interface User {
     CardComponent,
     PrismSkeletonComponent,
     PrismPaginationComponent,
+    PrismBreadcrumbsComponent,
+    PrismSearchInputComponent,
+    PrismEmptyStateComponent,
     AddUserDrawerComponent,
   ],
   template: `
     <prism-container maxWidth="full" paddingX="xl" paddingY="lg">
+      <!-- Breadcrumbs -->
+      <prism-breadcrumbs [items]="breadcrumbs" class="mb-6 block"></prism-breadcrumbs>
+
       <!-- Page Header -->
       <prism-grid columns="12" gap="lg" alignItems="center" class="page-header">
         <prism-grid-item colSpan="8">
@@ -134,36 +143,58 @@ interface User {
         </prism-grid-item>
       </prism-grid>
 
-      <!-- Users Table -->
-      <prism-card [elevation]="1">
-        <div prism-card-body style="padding: 0;">
-          <prism-table
-            [data]="users"
-            [columns]="columns"
-            [striped]="true"
-            [hoverable]="true"
-          >
-            <!-- Status Column Template -->
-            <ng-template #statusTemplate let-row>
-              <span class="badge" [ngClass]="{
-                'badge--success': row.status === 'active',
-                'badge--gray': row.status === 'inactive',
-                'badge--warning': row.status === 'pending'
-              }">
-                {{ row.status | titlecase }}
-              </span>
-            </ng-template>
-
-            <!-- Actions Column Template -->
-            <ng-template #actionsTemplate let-row>
-              <div class="action-buttons">
-                <prism-button variant="ghost" size="sm" (click)="editUser(row)">Edit</prism-button>
-                <prism-button variant="ghost" size="sm" (click)="deleteUser(row)">Delete</prism-button>
-              </div>
-            </ng-template>
-          </prism-table>
+      <!-- Users Table Section -->
+      <div class="table-section">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <prism-search 
+            placeholder="Search users by name, email or role..." 
+            (searchChange)="filterUsers($event)">
+          </prism-search>
         </div>
-      </prism-card>
+
+        <prism-card [elevation]="1">
+          <div prism-card-body style="padding: 0;">
+            <ng-container *ngIf="filteredUsers.length > 0; else noResults">
+              <prism-table
+                [data]="filteredUsers"
+                [columns]="columns"
+                [striped]="true"
+                [hoverable]="true"
+              >
+                <!-- Status Column Template -->
+                <ng-template #statusTemplate let-row>
+                  <span class="badge" [ngClass]="{
+                    'badge--success': row.status === 'active',
+                    'badge--gray': row.status === 'inactive',
+                    'badge--warning': row.status === 'pending'
+                  }">
+                    {{ row.status | titlecase }}
+                  </span>
+                </ng-template>
+    
+                <!-- Actions Column Template -->
+                <ng-template #actionsTemplate let-row>
+                  <div class="action-buttons">
+                    <prism-button variant="ghost" size="sm" (click)="editUser(row)">Edit</prism-button>
+                    <prism-button variant="ghost" size="sm" (click)="deleteUser(row)">Delete</prism-button>
+                  </div>
+                </ng-template>
+              </prism-table>
+            </ng-container>
+
+            <ng-template #noResults>
+              <prism-empty-state
+                icon="search"
+                title="No users found"
+                description="We couldn't find any users matching your search. Try adjusting your filters."
+              >
+                <prism-button variant="secondary" size="sm" (click)="resetFilter()">Clear Search</prism-button>
+              </prism-empty-state>
+            </ng-template>
+          </div>
+        </prism-card>
+      </div>
     </prism-container>
   `,
   styles: [`
@@ -251,8 +282,18 @@ interface User {
     }
 
     .action-buttons {
-      display: flex;
       gap: 0.5rem;
+    }
+
+    .mb-6 { margin-bottom: 1.5rem; }
+    .block { display: block; }
+    
+    .table-section {
+      margin-top: 1rem;
+    }
+
+    .filter-bar {
+      margin-bottom: 1rem;
     }
   `],
 })
@@ -283,6 +324,13 @@ export class UsersComponent implements AfterViewInit {
     { key: 'id', label: 'Actions', sortable: false },
   ];
 
+  breadcrumbs = [
+    { label: 'Home', url: '/' },
+    { label: 'Users' }
+  ];
+
+  searchTerm: string = '';
+
   constructor(
     private dialog: DialogService,
     private toast: ToastService,
@@ -300,6 +348,38 @@ export class UsersComponent implements AfterViewInit {
   get inactiveCount(): number {
     return this.users.filter(u => u.status === 'inactive').length;
   }
+
+  get filteredUsers(): User[] {
+    if (!this.searchTerm) return this.users;
+    const lowerTerm = this.searchTerm.toLowerCase();
+    return this.users.filter(user =>
+      user.name.toLowerCase().includes(lowerTerm) ||
+      user.email.toLowerCase().includes(lowerTerm) ||
+      user.role.toLowerCase().includes(lowerTerm)
+    );
+  }
+
+  filterUsers(term: string): void {
+    this.searchTerm = term;
+  }
+
+  resetFilter(): void {
+    // This requires access to the child component to clear input, 
+    // or we can rely on data binding if input supports it. 
+    // For now, just clearing the term will update the list, 
+    // but the input might stay populated unless we use ViewChild or two-way binding.
+    // The PrismSearchInput uses local FormControl.
+    // Ideally we re-render or call a method on it.
+    // Simple workaround: reload users or just clear term.
+    this.searchTerm = '';
+    // To clear the actual input visual, we would need @ViewChild(PrismSearchInputComponent).
+    // I'll add that ViewChild.
+    if (this.searchInput) {
+      this.searchInput.clear();
+    }
+  }
+
+  @ViewChild(PrismSearchInputComponent) searchInput!: PrismSearchInputComponent;
 
   ngAfterViewInit(): void {
     this.columns = [
