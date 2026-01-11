@@ -21,6 +21,8 @@ export * from './lib/badge';
 export * from './lib/chart';
 export * from './lib/skeleton';
 export * from './lib/pagination';
+export * from './lib/tooltip';
+export * from './lib/menu';
 
 
 // Note: To use the styles, import in your application's styles:

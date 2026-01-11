@@ -1,0 +1,26 @@
+feat(prism): implement overlay components (tooltip, menu) and refactor layout
+
+OVERLAY COMPONENTS:
+- Add PrismTooltipDirective: 
+  - 4-way positioning (top, bottom, left, right)
+  - Smart arrow indicators
+  - Micro-animations and dark mode support
+  - Global overlay styles (`_overlays.scss`)
+
+- Add PrismMenu System:
+  - PrismMenuComponent: Dropdown container with shadow and animation
+  - PrismMenuItemComponent: Interactive list items
+  - PrismMenuTriggerDirective: Click-outside detection and toggle logic
+  - Refined positioning using strict CSS offsets (calc(100% + 2px))
+
+LAYOUT & SHOWCASE:
+- Refactor App Header:
+  - Integrate User Profile dropdown with Settings/Logout actions
+  - Add tooltips to notification icons
+- Fix Layout Spacing:
+  - Update `.user-profile` to use `display: flex` for perfect vertical alignment
+  - Ensure dropdowns position correctly relative to triggers
+
+STYLES:
+- Add `_overlays.scss` to abstract global overlay styles
+- Tighter shadows and subtle borders for menus
