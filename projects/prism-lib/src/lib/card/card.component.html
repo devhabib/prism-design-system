@@ -1,24 +1,24 @@
-<div class="card">
-  <!-- Media Slot: Full-width images/videos -->
-  <div class="card__media">
-    <ng-content select="[prism-card-media]"></ng-content>
-  </div>
-  
-  <!-- Header Slot: Titles, icons, metadata -->
-  <div class="card__header">
-    <ng-content select="[prism-card-header]"></ng-content>
-  </div>
-  
-  <!-- Body Slot: Main content area -->
-  <div class="card__body">
-    <ng-content select="[prism-card-body]"></ng-content>
-  </div>
-  
-  <!-- Actions Slot: Buttons, links at bottom -->
-  <div class="card__actions">
-    <ng-content select="[prism-card-actions]"></ng-content>
-  </div>
-  
-  <!-- Default slot for simple content without specific sections -->
-  <ng-content></ng-content>
+<!-- No wrapper - styles are applied directly to :host -->
+
+<!-- Media Slot: Full-width images/videos -->
+<div class="card__media">
+  <ng-content select="[prism-card-media]"></ng-content>
 </div>
+
+<!-- Header Slot: Titles, icons, metadata -->
+<div class="card__header">
+  <ng-content select="[prism-card-header]"></ng-content>
+</div>
+
+<!-- Body Slot: Main content area -->
+<div class="card__body">
+  <ng-content select="[prism-card-body]"></ng-content>
+</div>
+
+<!-- Actions Slot: Buttons, links at bottom -->
+<div class="card__actions">
+  <ng-content select="[prism-card-actions]"></ng-content>
+</div>
+
+<!-- Default slot for simple content without specific sections -->
+<ng-content></ng-content>

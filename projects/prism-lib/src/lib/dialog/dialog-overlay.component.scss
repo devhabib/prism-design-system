@@ -1,44 +1,42 @@
 // ============================================
 // Dialog Overlay Styles
 // Built from scratch without Angular CDK
+// ViewEncapsulation.None - these styles apply globally
 // ============================================
-
-@use '../../styles/abstracts/variables' as v;
 
 // ============================================
 // Backdrop
 // ============================================
-.dialog-backdrop {
+.prism-dialog-backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
-  padding: var(--space-lg);
+  -webkit-backdrop-filter: blur(2px);
+  padding: 1rem;
 }
 
 // ============================================
 // Dialog Panel
 // ============================================
-.dialog-panel {
+.prism-dialog-panel {
   position: relative;
   display: flex;
   flex-direction: column;
   max-height: 90vh;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
+  background: #ffffff;
+  border-radius: 12px;
   box-shadow: 
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
   overflow: hidden;
-
-  // Default sizing
   min-width: 280px;
   
   // Focus outline when panel itself is focused
@@ -50,87 +48,56 @@
 // ============================================
 // Dialog Content Structure (for consumers)
 // ============================================
-// These classes can be used by dialog content components
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
 
-:host ::ng-deep {
-  .dialog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--space-lg);
-    border-bottom: 1px solid var(--color-border);
-
-    h2, h3 {
-      margin: 0;
-      font-size: v.$font-size-lg;
-      font-weight: 600;
-      color: var(--color-text-primary);
-    }
+  h2, h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
   }
+}
 
-  .dialog-content {
-    flex: 1;
-    padding: var(--space-lg);
-    overflow-y: auto;
-    color: var(--color-text-secondary);
-  }
+.dialog-content {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  color: #4b5563;
+}
 
-  .dialog-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--space-sm);
-    padding: var(--space-md) var(--space-lg);
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface-elevated);
-  }
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
 }
 
 // ============================================
 // Close Button (optional utility)
 // ============================================
 .dialog-close-btn {
-  position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-full);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-
-  &:hover {
-    background: var(--color-surface-elevated);
-    color: var(--color-text-primary);
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--color-primary);
-  }
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
+  position: absolute !important;
+  top: 0.75rem !important;
+  right: 0.75rem !important;
 }
 
 // ============================================
 // Responsive
 // ============================================
 @media (max-width: 640px) {
-  .dialog-backdrop {
-    padding: var(--space-md);
+  .prism-dialog-backdrop {
+    padding: 0.5rem;
   }
 
-  .dialog-panel {
+  .prism-dialog-panel {
     max-width: 100% !important;
     width: 100% !important;
   }

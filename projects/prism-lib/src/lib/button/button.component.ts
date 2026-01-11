@@ -7,8 +7,9 @@ import { CommonModule } from '@angular/common';
  * - secondary: Secondary actions, filled with neutral color
  * - outline: Bordered button with transparent background
  * - ghost: Minimal button with no border or background
+ * - danger: Destructive actions, filled with error/red color
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 
 /**
  * Button size options mapped to spacing tokens

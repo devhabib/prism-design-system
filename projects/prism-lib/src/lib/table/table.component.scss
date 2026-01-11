@@ -38,29 +38,32 @@ $table-border-color: var(--color-border);
 // Header
 // ============================================
 .table__head {
-  background: $table-header-bg;
-  border-bottom: 2px solid $table-border-color;
+  background: var(--color-surface-elevated, #f9fafb);
+  border-bottom: 2px solid var(--color-border, #e5e7eb);
 }
 
 .table__header {
-  padding: var(--space-md);
+  padding: var(--space-md, 1rem);
   text-align: left;
   font-weight: 600;
-  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #6b7280);
   white-space: nowrap;
   user-select: none;
 
   &--sortable {
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast, 150ms);
 
     &:hover {
-      background: rgba(0, 0, 0, 0.03);
+      background: rgba(0, 0, 0, 0.05);
     }
   }
 
   &--sorted {
-    color: var(--color-primary);
+    color: var(--color-primary, #2563eb);
   }
 }
 

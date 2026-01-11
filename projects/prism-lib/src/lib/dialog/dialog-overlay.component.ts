@@ -5,9 +5,12 @@ import {
   ViewChild,
   AfterViewInit,
   OnDestroy,
+  OnInit,
   ViewContainerRef,
   Input,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogRef, DialogConfig } from './dialog-ref';
@@ -29,17 +32,18 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   selector: 'prism-dialog-overlay',
   standalone: true,
   imports: [CommonModule],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div 
-      class="dialog-backdrop"
+      class="prism-dialog-backdrop"
       [@fadeInOut]="animationState"
       (click)="onBackdropClick($event)"
     >
       <div 
         #dialogPanel
-        class="dialog-panel"
+        class="prism-dialog-panel"
         [class]="panelClass"
-        [style.width]="config.width"
+        [style.width]="config.width || '400px'"
         [style.maxWidth]="config.maxWidth || '90vw'"
         [style.height]="config.height"
         role="dialog"
@@ -71,7 +75,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogOverlayComponent implements AfterViewInit, OnDestroy {
+export class DialogOverlayComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('contentContainer', { read: ViewContainerRef, static: true })
   contentContainer!: ViewContainerRef;
 
@@ -81,10 +85,12 @@ export class DialogOverlayComponent implements AfterViewInit, OnDestroy {
   @Input() dialogRef!: DialogRef<any>;
   @Input() config: DialogConfig = {};
 
-  animationState: 'void' | 'enter' | 'leave' = 'void';
+  animationState: 'void' | 'enter' | 'leave' = 'enter';
 
   private previousActiveElement: HTMLElement | null = null;
   private focusableElements: HTMLElement[] = [];
+
+  constructor(private cdr: ChangeDetectorRef) { }
 
   get panelClass(): string {
     if (!this.config.panelClass) return '';
@@ -93,12 +99,17 @@ export class DialogOverlayComponent implements AfterViewInit, OnDestroy {
       : this.config.panelClass;
   }
 
+  ngOnInit(): void {
+    // Start with 'enter' animation state immediately
+    this.animationState = 'enter';
+  }
+
   ngAfterViewInit(): void {
     // Store currently focused element
     this.previousActiveElement = document.activeElement as HTMLElement;
 
-    // Start enter animation
-    this.animationState = 'enter';
+    // Force change detection to ensure proper rendering
+    this.cdr.detectChanges();
 
     // Set up focus trap
     this.setupFocusTrap();
@@ -136,6 +147,7 @@ export class DialogOverlayComponent implements AfterViewInit, OnDestroy {
    */
   startCloseAnimation(): void {
     this.animationState = 'leave';
+    this.cdr.detectChanges();
 
     // Wait for animation to complete
     setTimeout(() => {

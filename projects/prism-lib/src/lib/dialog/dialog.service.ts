@@ -96,6 +96,9 @@ export class DialogService {
     // Attach overlay to ApplicationRef (renders to DOM)
     this.appRef.attachView(overlayRef.hostView);
 
+    // Force change detection to ensure proper initial render
+    overlayRef.changeDetectorRef.detectChanges();
+
     // Append to document body
     const overlayElement = overlayRef.location.nativeElement;
     document.body.appendChild(overlayElement);
