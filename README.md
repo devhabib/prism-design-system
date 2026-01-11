@@ -21,6 +21,9 @@ The workspace follows a monorepo structure:
 
 ### Core Components
 - **PrismButton**: Multi-variant button system (Primary, Secondary, Outline, Ghost, Danger) with loading states and size mappings.
+- **PrismAvatar**: Circular user avatar with automatic fallback to initials when images fail to load. Supports multiple sizes (sm, md, lg).
+- **PrismToggle**: iOS-style switch component for boolean states with smooth animations and brand color theming.
+- **PrismTabs**: Compound tab navigation component with animated ink bar indicator and full ARIA support.
 - **PrismDrawer**: Accessible slide-out overlay for navigation and side-actions.
 - **PrismDialog**: A programmatic service-based modal system for confirmations and alerts, featuring focus trapping and smooth scaling animations.
 - **PrismToast**: A stacking notification system with glassmorphism effects, managed via `PrismToastService`.
@@ -28,6 +31,7 @@ The workspace follows a monorepo structure:
 - **PrismCard**, **PrismInput**, **PrismSelect**: Foundational building blocks for data entry and display.
 
 ### Infrastructure Features
+- **Dark Mode Support**: Full theming system with `.dark-theme` class toggle and persistent user preferences via `ThemeService`.
 - **Global Error Listening**: Built-in global error handling provided at the application level.
 - **Animation Support**: Pre-configured Angular animations support in both the app and Storybook.
 - **Service-Based APIs**: Overlays (Dialogs/Toasts) are managed programmatically via dedicated services to reduce template clutter.

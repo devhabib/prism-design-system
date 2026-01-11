@@ -87,7 +87,9 @@
 // ============================================
 // Dark Mode Override
 // ============================================
-[data-theme='dark'] {
+[data-theme='dark'],
+.dark-theme {
+
   --color-primary: #{v.$color-blue-500};
   --color-primary-hover: #{v.$color-blue-600};
   

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterLink, RouterLinkActive } from '@angular/router';
-import { ButtonComponent, ToastService } from 'prism-lib';
+import { ButtonComponent, ToastService, PrismAvatarComponent } from 'prism-lib';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterLink, RouterLinkActive, ButtonComponent],
+  imports: [CommonModule, RouterModule, RouterLink, RouterLinkActive, ButtonComponent, PrismAvatarComponent],
   template: `
     <div class="app-layout">
       <!-- Sidebar -->
@@ -53,7 +53,7 @@ import { ButtonComponent, ToastService } from 'prism-lib';
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
           </prism-button>
-          <div class="app-header__avatar">JD</div>
+          <prism-avatar size="sm" initials="JD" imageSrc="https://api.dicebear.com/7.x/avataaars/svg?seed=John"></prism-avatar>
         </div>
       </header>
 

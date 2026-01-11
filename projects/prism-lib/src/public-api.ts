@@ -12,6 +12,10 @@ export * from './lib/toast';
 export * from './lib/layout';
 export * from './lib/select';
 export * from './lib/drawer';
+export * from './lib/avatar';
+export * from './lib/toggle';
+export * from './lib/tabs';
+
 
 // Note: To use the styles, import in your application's styles:
 // @use 'prism-lib/src/styles/main.scss';
