@@ -26,6 +26,8 @@ export * from './lib/menu';
 export * from './lib/breadcrumbs';
 export * from './lib/empty-state';
 export * from './lib/search-input';
+export * from './lib/file-upload';
+export * from './lib/date-picker';
 
 
 // Note: To use the styles, import in your application's styles:

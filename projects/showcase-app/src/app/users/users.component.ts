@@ -1,5 +1,6 @@
 import { Component, TemplateRef, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
   TableComponent,
   ButtonComponent,
@@ -14,6 +15,7 @@ import {
   PrismBreadcrumbsComponent,
   PrismSearchInputComponent,
   PrismEmptyStateComponent,
+  PrismDatePickerComponent,
 } from 'prism-lib';
 import { UserDialogComponent } from './user-dialog.component';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog.component';
@@ -33,6 +35,7 @@ interface User {
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,   // Add FormsModule for ngModel binding
     TableComponent,
     ButtonComponent,
     ContainerComponent,
@@ -44,6 +47,7 @@ interface User {
     PrismBreadcrumbsComponent,
     PrismSearchInputComponent,
     PrismEmptyStateComponent,
+    PrismDatePickerComponent,
     AddUserDrawerComponent,
   ],
   template: `
@@ -147,10 +151,19 @@ interface User {
       <div class="table-section">
         <!-- Filter Bar -->
         <div class="filter-bar">
-          <prism-search 
-            placeholder="Search users by name, email or role..." 
-            (searchChange)="filterUsers($event)">
-          </prism-search>
+          <div class="filter-search">
+            <prism-search 
+              placeholder="Search users by name, email or role..." 
+              (searchChange)="filterUsers($event)">
+            </prism-search>
+          </div>
+          <div class="filter-date">
+            <prism-date-picker 
+              placeholder="Filter by Joined Date"
+              (ngModelChange)="filterByDate($event)"
+              [(ngModel)]="selectedDate">
+            </prism-date-picker>
+          </div>
         </div>
 
         <prism-card [elevation]="1">
@@ -294,6 +307,16 @@ interface User {
 
     .filter-bar {
       margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .filter-search {
+      flex: 1;
+    }
+
+    .filter-date {
+      width: 200px;
     }
   `],
 })
@@ -330,6 +353,7 @@ export class UsersComponent implements AfterViewInit {
   ];
 
   searchTerm: string = '';
+  selectedDate: string = '';
 
   constructor(
     private dialog: DialogService,
@@ -350,17 +374,36 @@ export class UsersComponent implements AfterViewInit {
   }
 
   get filteredUsers(): User[] {
-    if (!this.searchTerm) return this.users;
-    const lowerTerm = this.searchTerm.toLowerCase();
-    return this.users.filter(user =>
-      user.name.toLowerCase().includes(lowerTerm) ||
-      user.email.toLowerCase().includes(lowerTerm) ||
-      user.role.toLowerCase().includes(lowerTerm)
-    );
+    let result = this.users;
+
+    // Filter by Search Term
+    if (this.searchTerm) {
+      const lowerTerm = this.searchTerm.toLowerCase();
+      result = result.filter(user =>
+        user.name.toLowerCase().includes(lowerTerm) ||
+        user.email.toLowerCase().includes(lowerTerm) ||
+        user.role.toLowerCase().includes(lowerTerm)
+      );
+    }
+
+    // Filter by Date (Joined After)
+    if (this.selectedDate) {
+      const filterDate = new Date(this.selectedDate).getTime();
+      result = result.filter(user => {
+        const userDate = new Date(user.joinedAt).getTime();
+        return userDate >= filterDate;
+      });
+    }
+
+    return result;
   }
 
   filterUsers(term: string): void {
     this.searchTerm = term;
+  }
+
+  filterByDate(date: string): void {
+    this.selectedDate = date;
   }
 
   resetFilter(): void {
@@ -372,6 +415,7 @@ export class UsersComponent implements AfterViewInit {
     // Ideally we re-render or call a method on it.
     // Simple workaround: reload users or just clear term.
     this.searchTerm = '';
+    this.selectedDate = '';
     // To clear the actual input visual, we would need @ViewChild(PrismSearchInputComponent).
     // I'll add that ViewChild.
     if (this.searchInput) {

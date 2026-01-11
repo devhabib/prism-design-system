@@ -7,6 +7,7 @@ import {
   ContainerComponent,
   GridComponent,
   GridItemComponent,
+  PrismFileUploadComponent,
 } from 'prism-lib';
 
 @Component({
@@ -19,7 +20,10 @@ import {
     InputComponent,
     ContainerComponent,
     GridComponent,
+    ContainerComponent,
+    GridComponent,
     GridItemComponent,
+    PrismFileUploadComponent,
   ],
   template: `
     <prism-container maxWidth="full" paddingX="xl" paddingY="lg">
@@ -93,7 +97,14 @@ import {
             </div>
             <div prism-card-body>
               <div class="account-info">
-                <div class="account-info__avatar">JD</div>
+                <div class="account-info__avatar-upload">
+                  <prism-file-upload 
+                    [initialPreview]="avatarUrl"
+                    accept="image/*"
+                    hint="Update Avatar"
+                    (filesSelected)="onAvatarSelected($event)">
+                  </prism-file-upload>
+                </div>
                 <div class="account-info__name">John Doe</div>
                 <div class="account-info__email">john@example.com</div>
                 <div class="account-info__role">Administrator</div>
@@ -154,19 +165,13 @@ import {
       margin-bottom: 1.5rem;
     }
 
-    .account-info__avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 auto 1rem;
+    .account-info__avatar-upload {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto 1.5rem;
     }
+
+    /* .account-info__avatar removed as it is replaced by file upload */
 
     .account-info__name {
       font-size: 1.125rem;
@@ -215,4 +220,19 @@ import {
     }
   `],
 })
-export class SettingsComponent { }
+export class SettingsComponent {
+  avatarUrl = 'https://api.dicebear.com/7.x/avataaars/svg?seed=John';
+
+  onAvatarSelected(files: File[]) {
+    if (files.length > 0) {
+      // Simulate upload and update preview logic
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.avatarUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      console.log('Avatar file selected:', file.name);
+    }
+  }
+}
