@@ -47,7 +47,7 @@ export class PrismChartComponent implements OnInit, OnDestroy, OnChanges, AfterV
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     // Only update if chart is already created and data or labels changed
     if (this.chart && (changes['data'] || changes['labels'])) {
       this.updateChart();

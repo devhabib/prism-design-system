@@ -28,6 +28,11 @@ export * from './lib/empty-state';
 export * from './lib/search-input';
 export * from './lib/file-upload';
 export * from './lib/date-picker';
+export * from './lib/stepper';
+export * from './lib/tags-input';
+export * from './lib/command-palette';
+export * from './lib/highlight';
+
 
 
 // Note: To use the styles, import in your application's styles:

@@ -42,8 +42,6 @@ interface User {
     GridComponent,
     GridItemComponent,
     CardComponent,
-    PrismSkeletonComponent,
-    PrismPaginationComponent,
     PrismBreadcrumbsComponent,
     PrismSearchInputComponent,
     PrismEmptyStateComponent,

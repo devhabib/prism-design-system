@@ -16,7 +16,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { ButtonComponent } from '../button/button.component';
 
 /**
  * Drawer Component - Slide-in panel from the right
@@ -24,7 +23,7 @@ import { ButtonComponent } from '../button/button.component';
 @Component({
   selector: 'prism-drawer',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule],
   template: `
     <!-- Backdrop -->
     <div 

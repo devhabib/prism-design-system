@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// Force Rebuild
 import {
   CardComponent,
   ContainerComponent,
@@ -7,7 +8,9 @@ import {
   GridItemComponent,
   PrismBadgeComponent,
   PrismChartComponent,
+  ButtonComponent,
 } from 'prism-lib';
+import { CreateProjectDrawerComponent } from './create-project-drawer.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +23,8 @@ import {
     GridItemComponent,
     PrismBadgeComponent,
     PrismChartComponent,
+    ButtonComponent,
+    CreateProjectDrawerComponent,
   ],
   template: `
     <prism-container maxWidth="full" paddingX="xl" paddingY="lg">
@@ -29,7 +34,12 @@ import {
           <h1 class="page-title">Dashboard</h1>
           <p class="page-subtitle">Welcome back, John! Here's what's happening.</p>
         </div>
+        <div class="header-actions">
+          <prism-button variant="primary" (click)="projectDrawer.open()">New Project</prism-button>
+        </div>
       </div>
+
+      <app-create-project-drawer #projectDrawer></app-create-project-drawer>
 
       <!-- Stats Grid -->
       <prism-grid columns="4" gap="lg" class="stats-section">
@@ -142,6 +152,9 @@ import {
   styles: [`
     .page-header {
       margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .page-title {

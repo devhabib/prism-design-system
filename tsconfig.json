@@ -13,7 +13,7 @@
     "experimentalDecorators": true,
     "paths": {
       "prism-lib": [
-        "./dist/prism-lib"
+        "./projects/prism-lib/src/public-api.ts"
       ]
     },
     "importHelpers": true,

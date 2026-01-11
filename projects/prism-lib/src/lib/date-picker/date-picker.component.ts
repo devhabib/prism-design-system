@@ -176,7 +176,6 @@ export class PrismDatePickerComponent implements ControlValueAccessor {
   openPicker() {
     if (this.disabled) return;
 
-    // Use type assertion to avoid TS errors with modern APIs or implicit types
     const native = this.nativeInput.nativeElement as any;
 
     if (native.showPicker) {

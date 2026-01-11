@@ -8,8 +8,12 @@ import {
   PrismTooltipDirective,
   PrismMenuComponent,
   PrismMenuItemComponent,
-  PrismMenuTriggerDirective
+  PrismMenuTriggerDirective,
+  PrismCommandPaletteComponent,
+  CommandService,
+  Command
 } from 'prism-lib';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +28,18 @@ import {
     PrismTooltipDirective,
     PrismMenuComponent,
     PrismMenuItemComponent,
-    PrismMenuTriggerDirective
+    PrismMenuItemComponent,
+    PrismMenuTriggerDirective,
+    PrismCommandPaletteComponent,
+    AsyncPipe
   ],
   template: `
+    <prism-command-palette 
+      [isOpen]="(commandService.isOpen$ | async)!" 
+      [commands]="commands" 
+      (close)="commandService.close()"
+      (execute)="handleCommand($event)">
+    </prism-command-palette>
     <div class="app-layout">
       <!-- Sidebar -->
       <aside class="app-sidebar">
@@ -154,10 +167,58 @@ import {
 export class App {
   pageTitle = 'Dashboard';
 
+  commands: Command[] = [];
+
   constructor(
     private toast: ToastService,
-    private router: Router
-  ) { }
+    private router: Router,
+    public commandService: CommandService
+  ) {
+    this.initializeCommands();
+  }
+
+  private initializeCommands() {
+    this.commands = [
+      {
+        id: 'nav-dash',
+        title: 'Go to Dashboard',
+        group: 'Navigation',
+        action: () => this.navigateTo('/dashboard'),
+        shortcut: 'G D'
+      },
+      {
+        id: 'nav-users',
+        title: 'Go to Users',
+        group: 'Navigation',
+        action: () => this.navigateTo('/users'),
+        shortcut: 'G U'
+      },
+      {
+        id: 'nav-settings',
+        title: 'Go to Settings',
+        group: 'Navigation',
+        action: () => this.navigateTo('/settings'),
+        shortcut: 'G S'
+      },
+      {
+        id: 'theme-toggle',
+        title: 'Toggle Dark Mode',
+        group: 'Theme',
+        action: () => this.toast.info('Dark mode toggled (mock)'),
+        icon: '🌙'
+      },
+      {
+        id: 'account-logout',
+        title: 'Logout',
+        group: 'Account',
+        action: () => this.logout()
+      }
+    ];
+  }
+
+  handleCommand(command: Command) {
+    command.action();
+  }
 
   showNotifications(): void {
     this.toast.info('No new notifications');
