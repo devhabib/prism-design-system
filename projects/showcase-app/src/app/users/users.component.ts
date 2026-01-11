@@ -12,6 +12,7 @@ import {
 } from 'prism-lib';
 import { UserDialogComponent } from './user-dialog.component';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog.component';
+import { AddUserDrawerComponent } from './add-user-drawer.component';
 
 interface User {
   id: number;
@@ -33,6 +34,7 @@ interface User {
     GridComponent,
     GridItemComponent,
     CardComponent,
+    AddUserDrawerComponent,
   ],
   template: `
     <prism-container maxWidth="full" paddingX="xl" paddingY="lg">
@@ -43,7 +45,7 @@ interface User {
           <p class="page-subtitle">Manage your team members and their permissions.</p>
         </prism-grid-item>
         <prism-grid-item colSpan="4" class="header-actions">
-          <prism-button variant="primary" (click)="openAddUserDialog()">
+          <prism-button variant="primary" (click)="openAddUserDrawer()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
               <line x1="12" y1="5" x2="12" y2="19"/>
               <line x1="5" y1="12" x2="19" y2="12"/>
@@ -52,6 +54,9 @@ interface User {
           </prism-button>
         </prism-grid-item>
       </prism-grid>
+
+      <!-- Add User Drawer -->
+      <app-add-user-drawer #addUserDrawer></app-add-user-drawer>
 
       <!-- Summary Cards -->
       <prism-grid columns="4" gap="lg" class="summary-section">
@@ -250,6 +255,7 @@ interface User {
 export class UsersComponent implements AfterViewInit {
   @ViewChild('statusTemplate') statusTemplate!: TemplateRef<any>;
   @ViewChild('actionsTemplate') actionsTemplate!: TemplateRef<any>;
+  @ViewChild('addUserDrawer') addUserDrawer!: AddUserDrawerComponent;
 
   users: User[] = [
     { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'active', joinedAt: '2024-01-15' },
@@ -303,16 +309,19 @@ export class UsersComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  openAddUserDialog(): void {
-    const ref = this.dialog.open(UserDialogComponent, {
-      width: '450px',
-      data: { mode: 'add' },
-    });
-
-    ref.afterClosed().subscribe((result) => {
-      if (result) {
-        this.toast.success('User added successfully!');
-      }
+  openAddUserDrawer(): void {
+    this.addUserDrawer.open((data) => {
+      const newUser: User = {
+        id: Math.max(...this.users.map(u => u.id)) + 1,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        status: data.status as 'active' | 'inactive' | 'pending',
+        joinedAt: new Date().toISOString().split('T')[0],
+      };
+      this.users = [...this.users, newUser];
+      this.toast.success('User added successfully!');
+      this.cdr.detectChanges();
     });
   }
 
@@ -350,3 +359,4 @@ export class UsersComponent implements AfterViewInit {
     });
   }
 }
+

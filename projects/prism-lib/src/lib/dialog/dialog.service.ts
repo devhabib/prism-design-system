@@ -8,7 +8,8 @@ import {
   ComponentRef,
 } from '@angular/core';
 import { DialogRef, DialogConfig } from './dialog-ref';
-import { DialogOverlayComponent } from './dialog-overlay.component';
+import { PrismDialogComponent } from './prism-dialog.component';
+
 import { DIALOG_DATA, DIALOG_REF } from './dialog.tokens';
 
 /**
@@ -39,7 +40,7 @@ import { DIALOG_DATA, DIALOG_REF } from './dialog.tokens';
  */
 @Injectable({ providedIn: 'root' })
 export class DialogService {
-  private openDialogs: Map<DialogRef, ComponentRef<DialogOverlayComponent>> = new Map();
+  private openDialogs: Map<DialogRef, ComponentRef<PrismDialogComponent>> = new Map();
 
   constructor(
     private appRef: ApplicationRef,
@@ -72,7 +73,7 @@ export class DialogService {
     });
 
     // Create the overlay component
-    const overlayRef = createComponent(DialogOverlayComponent, {
+    const overlayRef = createComponent(PrismDialogComponent, {
       environmentInjector: this.envInjector,
       elementInjector: dialogInjector,
     });
@@ -131,7 +132,7 @@ export class DialogService {
    */
   private destroyDialog(
     dialogRef: DialogRef,
-    overlayRef: ComponentRef<DialogOverlayComponent>,
+    overlayRef: ComponentRef<PrismDialogComponent>,
     contentRef: ComponentRef<any>
   ): void {
     // Remove from tracking

@@ -12,8 +12,9 @@ const meta: Meta<ButtonComponent> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'outline', 'ghost'],
+      options: ['primary', 'secondary', 'outline', 'ghost', 'danger'],
       description: 'Visual style of the button',
+
     },
     size: {
       control: 'select',
@@ -75,6 +76,15 @@ export const Ghost: Story = {
   }),
 };
 
+export const Danger: Story = {
+  args: { variant: 'danger', size: 'md' },
+  render: (args) => ({
+    props: args,
+    template: `<prism-button [variant]="variant" [size]="size">Danger</prism-button>`,
+  }),
+};
+
+
 // ===========================================
 // Size Variants
 // ===========================================
@@ -126,11 +136,13 @@ export const AllVariants: Story = {
           <prism-button variant="secondary">Secondary</prism-button>
           <prism-button variant="outline">Outline</prism-button>
           <prism-button variant="ghost">Ghost</prism-button>
+          <prism-button variant="danger">Danger</prism-button>
         </div>
         <div style="display: flex; gap: 1rem; align-items: center;">
           <prism-button variant="primary" [loading]="true">Loading</prism-button>
-          <prism-button variant="secondary" [disabled]="true">Disabled</prism-button>
+          <prism-button variant="danger" [disabled]="true">Disabled Danger</prism-button>
         </div>
+
       </div>
     `,
   }),

@@ -115,9 +115,11 @@
 }
 
 // Danger - Destructive actions
-:host(.prism-button--danger) .button {
-  background-color: var(--color-error, #ef4444);
-  color: var(--color-text-inverse, #ffffff);
+:host(.prism-button--danger) .button,
+.btn-danger {
+  background-color: var(--prism-color-error, var(--color-error, #ef4444));
+  color: white;
+
 
   &:hover:not(:disabled) {
     background-color: #dc2626; // Darker red on hover

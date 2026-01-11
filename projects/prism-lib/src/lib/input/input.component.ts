@@ -78,6 +78,9 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit, OnDe
   /** Required indicator */
   @Input() required: boolean = false;
 
+  /** Size variant (sm = compact, md = default) */
+  @Input() size: 'sm' | 'md' = 'md';
+
   /** Readonly state */
   @Input() readonly: boolean = false;
 
@@ -161,6 +164,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit, OnDe
   get hostClasses(): string {
     return [
       'prism-input',
+      `prism-input--${this.size}`,
       this.isFocused ? 'prism-input--focused' : '',
       this.hasValue ? 'prism-input--has-value' : '',
       this.hasError ? 'prism-input--error' : '',

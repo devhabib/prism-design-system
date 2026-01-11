@@ -1,170 +1,66 @@
 # Prism Design System
 
-![Angular](https://img.shields.io/badge/Angular-19+-DD0031?style=flat-square&logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Storybook](https://img.shields.io/badge/Storybook-8.0-FF4785?style=flat-square&logo=storybook&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+Prism is a high-performance, aesthetically rich UI component library built for modern Angular applications. It emphasizes visual excellence through glassmorphism, smooth animations, and a robust token-based design system.
 
-> An enterprise-grade, accessible component library built to demonstrate advanced Angular patterns and modern SCSS architecture.
+## 🚀 Technlogy Stack
 
----
-
-## ✨ Features
-
-- **4 Production-Ready Components** — Button, Card, Input, Table
-- **Full Reactive Forms Support** — ControlValueAccessor implementation
-- **Theming via CSS Custom Properties** — Easy customization
-- **Storybook Documentation** — Interactive component playground
-
----
-
-## 🏗️ Architecture Highlights
-
-| Pattern | Implementation |
-|---------|----------------|
-| **ControlValueAccessor** | `PrismInput` integrates seamlessly with `[formControl]` and `[(ngModel)]` using `@Self() @Optional() NgControl` injection |
-| **SCSS 7-1 Pattern** | Organized abstracts (`_variables`, `_tokens`, `_mixins`) with CSS Custom Properties for theming |
-| **Content Projection** | `PrismCard` uses multi-slot projection (`prism-card-header`, `prism-card-body`, `prism-card-actions`) |
-| **Generic Data Tables** | `PrismTable` accepts `TableColumn[]` config with `TemplateRef` support for custom cell rendering |
-| **Dumb Pagination** | Table exposes `pageChange` output — parent handles logic |
-
----
-
-## 🚀 Quick Start
-
-```bash
-# Clone and install
-git clone https://github.com/devhabib/prism-design-system.git
-cd prism-design-system
-npm install
-
-# Run Storybook
-npm run storybook
-# → http://localhost:6006
-
-# Build the library
-npm run build:lib
-```
-
----
-
-## 📦 Installation (in your project)
-
-```bash
-npm install prism-lib
-```
-
-```typescript
-// app.config.ts or standalone component
-import { ButtonComponent, CardComponent, InputComponent, TableComponent } from 'prism-lib';
-
-@Component({
-  standalone: true,
-  imports: [ButtonComponent, CardComponent, InputComponent, TableComponent],
-  // ...
-})
-```
-
----
-
-## 🎨 Component Showcase
-
-### Button
-
-```html
-<prism-button variant="primary" size="md">Submit</prism-button>
-<prism-button variant="outline" [loading]="true">Loading...</prism-button>
-```
-
-### Card (Content Projection)
-
-```html
-<prism-card [elevation]="2" [hoverable]="true">
-  <prism-card-header>
-    <h3>Card Title</h3>
-  </prism-card-header>
-  <prism-card-body>
-    <p>Card content goes here.</p>
-  </prism-card-body>
-  <prism-card-actions>
-    <prism-button variant="primary">Action</prism-button>
-  </prism-card-actions>
-</prism-card>
-```
-
-### Input (Reactive Forms)
-
-```html
-<prism-input 
-  label="Email" 
-  type="email"
-  [formControl]="emailControl"
->
-  <svg prismPrefix><!-- icon --></svg>
-</prism-input>
-```
-
-### Table (Custom Templates)
-
-```html
-<!-- Define status badge template -->
-<ng-template #statusBadge let-row>
-  <span class="badge" [class.active]="row.status === 'Active'">
-    {{ row.status }}
-  </span>
-</ng-template>
-
-<!-- Use in table -->
-<prism-table 
-  [data]="users" 
-  [columns]="[
-    { key: 'name', label: 'Name', sortable: true },
-    { key: 'status', label: 'Status', template: statusBadge }
-  ]"
-  [showPagination]="true"
-  [totalItems]="100"
-  [pageSize]="10"
-  (pageChange)="onPageChange($event)"
-></prism-table>
-```
-
----
+- **Angular 20**: Leveraging the latest features and performance enhancements of the Angular framework.
+- **Storybook 8**: Fully documented component sandbox with interactive demos and autodoc prop tables.
+- **SCSS**: Modular styling using a global design token system for consistent branding.
+- **TypeScript**: Strictly typed components and services for a reliable developer experience.
 
 ## 📁 Project Structure
 
-```
-prism/
-├── projects/
-│   ├── prism-lib/           # Component library
-│   │   ├── src/lib/
-│   │   │   ├── button/
-│   │   │   ├── card/
-│   │   │   ├── input/
-│   │   │   └── table/
-│   │   └── src/styles/      # SCSS 7-1 architecture
-│   │       ├── abstracts/   # _variables, _tokens, _mixins
-│   │       └── base/        # _reset
-│   └── showcase-app/        # Demo application
-└── .storybook/              # Storybook configuration
-```
+The workspace follows a monorepo structure:
 
----
+- **`projects/prism-lib`**: The heart of the design system. Contains all reusable UI components, services, and tokens.
+- **`projects/showcase-app`**: A demonstration application showcasing the library components in real-world scenarios.
+- **`.storybook`**: Global Storybook configuration, including decorators for Angular animations and global styles.
 
-## 🛠️ Development
+## 🛠️ Key Components & Features
 
+### Core Components
+- **PrismButton**: Multi-variant button system (Primary, Secondary, Outline, Ghost, Danger) with loading states and size mappings.
+- **PrismDrawer**: Accessible slide-out overlay for navigation and side-actions.
+- **PrismDialog**: A programmatic service-based modal system for confirmations and alerts, featuring focus trapping and smooth scaling animations.
+- **PrismToast**: A stacking notification system with glassmorphism effects, managed via `PrismToastService`.
+- **PrismTable**: Data-dense table component with stylized headers and grid layouts.
+- **PrismCard**, **PrismInput**, **PrismSelect**: Foundational building blocks for data entry and display.
+
+### Infrastructure Features
+- **Global Error Listening**: Built-in global error handling provided at the application level.
+- **Animation Support**: Pre-configured Angular animations support in both the app and Storybook.
+- **Service-Based APIs**: Overlays (Dialogs/Toasts) are managed programmatically via dedicated services to reduce template clutter.
+
+## 🏁 Getting Started
+
+### Prerequisites
+- Node.js (Latest LTS recommended)
+- Angular CLI: `npm install -g @angular/cli`
+
+### Installation
+Clone the repository and install dependencies using the legacy peer deps flag due to the cutting-edge Angular 20 environment:
 ```bash
-# Run tests
-npm test
-
-# Build production library
-npm run build:lib
-
-# Lint
-npm run lint
+npm install --legacy-peer-deps
 ```
 
+### Running the Development Environment
+
+**Start Storybook (Component Documentation)**
+```bash
+npm run storybook
+```
+
+**Start Showcase Application**
+```bash
+npm start
+```
+
+## 📚 Component Documentation
+Each component is documented in Storybook with:
+- **Playground**: Interactive controls to test different props in real-time.
+- **Docs Tab**: Auto-generated prop tables from JSDoc comments and usage snippets.
+- **Service Demos**: Dedicated stories for service-based components (Toast/Dialog) to simulate programmatic triggers.
+
 ---
-
-## 📄 License
-
-MIT © 2026 Habib
+Built with ❤️ by the Prism Team.

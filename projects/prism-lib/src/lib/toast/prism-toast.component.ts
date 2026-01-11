@@ -11,10 +11,12 @@ import { CommonModule } from '@angular/common';
 import { ToastType } from './toast.types';
 
 /**
- * Toast Component
+ * PrismToastComponent
  * 
  * Individual toast notification with glassmorphism styling.
- * Uses CSS animations for enter/leave effects.
+ * Used for brief, non-intrusive feedback messages.
+ * 
+ * Typically managed via `PrismToastService`.
  */
 @Component({
   selector: 'prism-toast',
@@ -177,11 +179,16 @@ import { ToastType } from './toast.types';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent implements OnInit {
+export class PrismToastComponent implements OnInit {
+  /** The message text to display in the toast */
   @Input() message: string = '';
+
+  /** Visual type of the toast, affecting icon and accent color */
   @Input() type: ToastType = 'info';
 
+  /** Emitted when the toast is manually dismissed by the user */
   @Output() dismissed = new EventEmitter<void>();
+
 
   isEntering = true;
 

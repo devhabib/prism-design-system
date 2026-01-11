@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
   ComponentRef,
 } from '@angular/core';
-import { ToastComponent } from './toast.component';
+import { PrismToastComponent } from './prism-toast.component';
 import { ToastType, ToastConfig, ToastRef } from './toast.types';
 
 /**
@@ -30,7 +30,7 @@ import { ToastType, ToastConfig, ToastRef } from './toast.types';
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   private containerElement: HTMLElement | null = null;
-  private toasts: Map<string, ComponentRef<ToastComponent>> = new Map();
+  private toasts: Map<string, ComponentRef<PrismToastComponent>> = new Map();
   private counter = 0;
 
   constructor(
@@ -48,7 +48,7 @@ export class ToastService {
     this.ensureContainer();
 
     // Create toast component
-    const componentRef = createComponent(ToastComponent, {
+    const componentRef = createComponent(PrismToastComponent, {
       environmentInjector: this.envInjector,
     });
 

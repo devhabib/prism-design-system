@@ -1,0 +1,181 @@
+// ============================================
+// Select Component Styles
+// Matches Input component styling exactly
+// ============================================
+
+$select-height: 3.5rem;
+$select-height-sm: 2.5rem;
+$select-padding-x: var(--space-md, 1rem);
+$select-border-radius: var(--radius-md, 0.5rem);
+$label-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Size variants
+:host(.prism-select--sm) {
+  .select-wrapper {
+    min-height: $select-height-sm;
+  }
+  .select__native {
+    height: $select-height-sm;
+    padding: 0.75rem $select-padding-x 0.25rem 1rem;
+    font-size: 0.875rem;
+  }
+  .select__label {
+    font-size: 0.875rem;
+  }
+  .select__label--floated {
+    top: 0.5rem;
+    font-size: 0.625rem;
+  }
+}
+
+// ============================================
+// Wrapper
+// ============================================
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface, #ffffff);
+  border: 2px solid var(--color-border, #e5e7eb);
+  border-radius: $select-border-radius;
+  transition: border-color var(--transition-fast, 150ms), box-shadow var(--transition-fast, 150ms);
+  min-height: $select-height;
+
+  &:hover:not(.select-wrapper--focused) {
+    border-color: var(--color-secondary, #374151);
+  }
+
+  &--focused {
+    border-color: var(--color-primary, #2563eb);
+    box-shadow: 0 0 0 3px var(--color-primary-light, #dbeafe);
+  }
+}
+
+// ============================================
+// Field Container
+// ============================================
+.select__field {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+// ============================================
+// Native Select
+// ============================================
+.select__native {
+  width: 100%;
+  height: $select-height;
+  padding: 1.25rem $select-padding-x 0.5rem 1rem;
+  padding-right: 2.5rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-base, 'Inter', sans-serif);
+  font-size: 1rem;
+  color: var(--color-text-primary, #111827);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-text-muted, #9ca3af);
+  }
+}
+
+// ============================================
+// Arrow Icon
+// ============================================
+.select__arrow {
+  position: absolute;
+  right: $select-padding-x;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-text-secondary, #6b7280);
+  display: flex;
+  align-items: center;
+}
+
+// ============================================
+// Floating Label
+// ============================================
+.select__label {
+  position: absolute;
+  left: $select-padding-x;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: var(--color-text-secondary, #6b7280);
+  pointer-events: none;
+  transition: 
+    transform $label-transition,
+    font-size $label-transition,
+    color $label-transition,
+    top $label-transition;
+  transform-origin: left center;
+  background: transparent;
+
+  &--required::after {
+    content: ' *';
+    color: var(--color-error, #ef4444);
+  }
+
+  &--floated {
+    top: 0.75rem;
+    transform: translateY(0);
+    font-size: 0.75rem;
+  }
+}
+
+:host(.prism-select--focused) .select__label--floated {
+  color: var(--color-primary, #2563eb);
+}
+
+// ============================================
+// Error State
+// ============================================
+:host(.prism-select--error) {
+  .select-wrapper {
+    border-color: var(--color-error, #ef4444);
+
+    &--focused {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    }
+  }
+
+  .select__label {
+    color: var(--color-error, #ef4444);
+  }
+}
+
+.select__error {
+  margin-top: var(--space-xs, 0.25rem);
+  font-size: 0.875rem;
+  color: var(--color-error, #ef4444);
+}
+
+.select__hint {
+  margin-top: var(--space-xs, 0.25rem);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+// ============================================
+// Disabled State
+// ============================================
+:host(.prism-select--disabled) {
+  .select-wrapper {
+    background-color: var(--color-surface-elevated, #f9fafb);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}

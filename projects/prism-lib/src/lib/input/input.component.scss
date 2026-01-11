@@ -18,6 +18,30 @@ $label-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
 }
 
+// Size variants
+:host(.prism-input--sm) {
+  .input-wrapper {
+    min-height: 2.5rem;
+  }
+  .input__native {
+    height: 2.5rem;
+    padding: 0.75rem var(--space-md, 1rem) 0.25rem;
+    font-size: 0.875rem;
+  }
+  .input__label {
+    font-size: 0.875rem;
+  }
+  .input__native:focus ~ .input__label,
+  .input__native:not(:placeholder-shown) ~ .input__label {
+    top: 0.5rem;
+    font-size: 0.625rem;
+  }
+}
+
+:host(.prism-input--md) {
+  // Default size, use existing values
+}
+
 // ============================================
 // Wrapper Layout
 // ============================================

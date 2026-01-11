@@ -17,19 +17,19 @@ import { DialogRef, DialogConfig } from './dialog-ref';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 /**
- * Dialog Overlay Component
+ * PrismDialogComponent
  * 
- * Visual container that covers the screen (backdrop) and hosts the dialog content.
- * Built from scratch without Angular CDK.
+ * A modal dialog that interrupts the user workflow to request a response.
+ * It acts as a visual container that covers the screen (backdrop) and hosts dynamic content.
  * 
  * Features:
- * - Click outside to close (if enabled)
- * - Fade in/out animations
- * - Focus trapping (basic implementation)
- * - ESC key to close
+ * - Fade in/out and slide animations
+ * - Focus trapping and accessibility (ESC to close)
+ * - Backdrop click to close (configurable)
+ * - Custom width and style injection
  */
 @Component({
-  selector: 'prism-dialog-overlay',
+  selector: 'prism-dialog',
   standalone: true,
   imports: [CommonModule],
   encapsulation: ViewEncapsulation.None,
@@ -56,7 +56,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       </div>
     </div>
   `,
-  styleUrls: ['./dialog-overlay.component.scss'],
+  styleUrls: ['./prism-dialog.component.scss'],
   animations: [
     trigger('fadeInOut', [
       state('void', style({ opacity: 0 })),
@@ -75,14 +75,17 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogOverlayComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PrismDialogComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('contentContainer', { read: ViewContainerRef, static: true })
   contentContainer!: ViewContainerRef;
 
   @ViewChild('dialogPanel', { static: true })
   dialogPanel!: ElementRef<HTMLElement>;
 
+  /** Reference to the dialog instance, used for closing and subscriptions */
   @Input() dialogRef!: DialogRef<any>;
+
+  /** Configuration options for the dialog appearance and behavior */
   @Input() config: DialogConfig = {};
 
   animationState: 'void' | 'enter' | 'leave' = 'enter';
@@ -92,7 +95,11 @@ export class DialogOverlayComponent implements OnInit, AfterViewInit, OnDestroy 
 
   constructor(private cdr: ChangeDetectorRef) { }
 
+  /**
+   * Computed CSS classes for the dialog panel
+   */
   get panelClass(): string {
+
     if (!this.config.panelClass) return '';
     return Array.isArray(this.config.panelClass)
       ? this.config.panelClass.join(' ')

@@ -167,20 +167,39 @@ class DialogDemoComponent {
   }
 }
 
+import { PrismDialogComponent } from './prism-dialog.component';
+
 // ============================================
 // Storybook Meta
 // ============================================
-const meta: Meta = {
+const meta: Meta<PrismDialogComponent> = {
   title: 'Overlays/Dialog',
+  component: PrismDialogComponent,
+  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [CommonModule, DialogDemoComponent, TestDialogComponent],
       providers: [provideAnimations()],
     }),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component: 'A modal dialog that interrupts the user workflow to request a response. Supports custom headers, footers, and sizes. Ideal for confirmations, alerts, and detailed forms.'
+      }
+    }
+  },
+  argTypes: {
+    config: {
+      description: 'Configuration options for the dialog appearance and behavior',
+      control: 'object'
+    },
+    dialogRef: {
+      table: { disable: true }
+    }
+  }
 };
 
-export default meta;
 
 // ============================================
 // Stories

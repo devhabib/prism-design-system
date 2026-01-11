@@ -102,17 +102,50 @@ class ToastDemoComponent {
   }
 }
 
+import { PrismToastComponent } from './prism-toast.component';
+
 // ============================================
 // Storybook Meta
 // ============================================
-const meta: Meta = {
+const meta: Meta<PrismToastComponent> = {
   title: 'Feedback/Toast',
+  component: PrismToastComponent,
+  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, ToastDemoComponent],
+      imports: [CommonModule, ToastDemoComponent, PrismToastComponent],
       providers: [provideAnimations()],
     }),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component: `The Toast component provides brief, non-intrusive feedback messages that appear individually and stack vertically. 
+        
+### Service Usage
+While the component can be used in templates, it is typically managed via \`PrismToastService\`.
+
+\`\`\`typescript
+constructor(private toast: ToastService) {}
+
+showSuccess() {
+  this.toast.success('Operation successful!');
+}
+\`\`\`
+`
+      }
+    }
+  },
+  argTypes: {
+    type: {
+      control: 'select',
+      options: ['success', 'error', 'info', 'warning'],
+      description: 'The visual style and icon of the toast'
+    },
+    message: {
+      description: 'Message text to display'
+    }
+  }
 };
 
 export default meta;
@@ -126,6 +159,38 @@ export const InteractiveDemo: StoryObj = {
     template: `<toast-demo></toast-demo>`,
   }),
 };
+
+export const ServiceDemo: StoryObj = {
+  name: '🛠️ Service Playground',
+  render: (args) => ({
+    props: {
+      ...args,
+      trigger: (toast: ToastService) => {
+        // @ts-ignore
+        toast[args.type || 'info'](args.message || 'Hello from Prism Toast!');
+      }
+    },
+    template: `
+      <div style="padding: 1rem; border: 1px dashed #ccc; border-radius: 8px;">
+        <prism-button variant="primary" (click)="trigger(toast)">
+          Trigger {{ type | titlecase }} Toast
+        </prism-button>
+        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">
+          This demo uses <code>ToastService</code> to spawn toasts based on the controls below.
+        </p>
+      </div>
+    `,
+    moduleMetadata: {
+      providers: [ToastService],
+      imports: [ButtonComponent, CommonModule]
+    }
+  }),
+  args: {
+    type: 'success',
+    message: 'Success notification triggered via Service!'
+  }
+};
+
 
 export const Documentation: StoryObj = {
   name: 'Usage Documentation',
