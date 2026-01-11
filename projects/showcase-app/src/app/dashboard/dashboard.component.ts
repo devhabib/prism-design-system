@@ -5,6 +5,8 @@ import {
   ContainerComponent,
   GridComponent,
   GridItemComponent,
+  PrismBadgeComponent,
+  PrismChartComponent,
 } from 'prism-lib';
 
 @Component({
@@ -16,6 +18,8 @@ import {
     ContainerComponent,
     GridComponent,
     GridItemComponent,
+    PrismBadgeComponent,
+    PrismChartComponent,
   ],
   template: `
     <prism-container maxWidth="full" paddingX="xl" paddingY="lg">
@@ -42,6 +46,43 @@ import {
         </prism-grid-item>
       </prism-grid>
 
+      <!-- Charts Grid -->
+      <prism-grid columns="12" gap="xl" class="charts-section">
+        <!-- Revenue Line Chart -->
+        <prism-grid-item colSpan="8">
+          <prism-card [elevation]="1">
+            <div prism-card-header>
+              <h3 class="section-title">Revenue This Year</h3>
+            </div>
+            <div prism-card-body>
+              <prism-chart
+                type="line"
+                height="300px"
+                [labels]="revenueLabels"
+                [data]="revenueData"
+              ></prism-chart>
+            </div>
+          </prism-card>
+        </prism-grid-item>
+
+        <!-- User Signups Bar Chart -->
+        <prism-grid-item colSpan="4">
+          <prism-card [elevation]="1">
+            <div prism-card-header>
+              <h3 class="section-title">User Signups</h3>
+            </div>
+            <div prism-card-body>
+              <prism-chart
+                type="bar"
+                height="200px"
+                [labels]="signupsLabels"
+                [data]="signupsData"
+              ></prism-chart>
+            </div>
+          </prism-card>
+        </prism-grid-item>
+      </prism-grid>
+
       <!-- Content Grid -->
       <prism-grid columns="12" gap="xl" class="content-section">
         <!-- Recent Activity -->
@@ -60,6 +101,7 @@ import {
                     <div class="activity-item__title">{{ activity.title }}</div>
                     <div class="activity-item__time">{{ activity.time }}</div>
                   </div>
+                  <prism-badge [variant]="activity.badgeVariant">{{ activity.status }}</prism-badge>
                 </div>
               </div>
             </div>
@@ -116,6 +158,10 @@ import {
     }
 
     .stats-section {
+      margin-bottom: 2rem;
+    }
+
+    .charts-section {
       margin-bottom: 2rem;
     }
 
@@ -247,10 +293,56 @@ export class DashboardComponent {
     { label: 'Bounce Rate', value: '24.8%', change: '3% from last month', positive: false },
   ];
 
+  // Revenue Chart Data
+  revenueLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  revenueData = [
+    {
+      label: 'Revenue',
+      data: [3200, 4100, 3800, 5200, 4800, 6100, 7200, 6800, 7500, 8200, 9100, 10500],
+    }
+  ];
+
+  // Signups Chart Data
+  signupsLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  signupsData = [
+    {
+      label: 'Signups',
+      data: [65, 59, 80, 81, 56, 55, 40],
+    }
+  ];
+
   activities = [
-    { initials: 'JD', title: 'John Doe updated their profile', time: '2 minutes ago', color: '#6366f1' },
-    { initials: 'AS', title: 'Alice Smith created a new project', time: '15 minutes ago', color: '#10b981' },
-    { initials: 'BJ', title: 'Bob Johnson uploaded 3 files', time: '1 hour ago', color: '#f59e0b' },
-    { initials: 'MK', title: 'Mary Kim invited 2 team members', time: '3 hours ago', color: '#ef4444' },
+    {
+      initials: 'JD',
+      title: 'John Doe updated their profile',
+      time: '2 minutes ago',
+      color: '#6366f1',
+      status: 'Completed',
+      badgeVariant: 'success' as const
+    },
+    {
+      initials: 'AS',
+      title: 'Alice Smith created a new project',
+      time: '15 minutes ago',
+      color: '#10b981',
+      status: 'Active',
+      badgeVariant: 'primary' as const
+    },
+    {
+      initials: 'BJ',
+      title: 'Bob Johnson uploaded 3 files',
+      time: '1 hour ago',
+      color: '#f59e0b',
+      status: 'Pending',
+      badgeVariant: 'warning' as const
+    },
+    {
+      initials: 'MK',
+      title: 'Mary Kim invited 2 team members',
+      time: '3 hours ago',
+      color: '#ef4444',
+      status: 'Failed',
+      badgeVariant: 'error' as const
+    },
   ];
 }

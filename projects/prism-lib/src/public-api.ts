@@ -17,6 +17,8 @@ export * from './lib/toggle';
 export * from './lib/tabs';
 export * from './lib/alert';
 export * from './lib/checkbox';
+export * from './lib/badge';
+export * from './lib/chart';
 
 
 // Note: To use the styles, import in your application's styles:
