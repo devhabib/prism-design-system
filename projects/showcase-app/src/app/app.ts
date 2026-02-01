@@ -14,6 +14,7 @@ import {
   Command
 } from 'prism-lib';
 import { AsyncPipe } from '@angular/common';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -172,6 +173,7 @@ export class App {
   constructor(
     private toast: ToastService,
     private router: Router,
+    private themeService: ThemeService,
     public commandService: CommandService
   ) {
     this.initializeCommands();
@@ -204,7 +206,10 @@ export class App {
         id: 'theme-toggle',
         title: 'Toggle Dark Mode',
         group: 'Theme',
-        action: () => this.toast.info('Dark mode toggled (mock)'),
+        action: () => {
+          this.themeService.toggleDarkMode();
+          this.toast.info(this.themeService.isDarkMode ? 'Dark mode enabled' : 'Light mode enabled');
+        },
         icon: '🌙'
       },
       {

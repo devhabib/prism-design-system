@@ -8,7 +8,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToastType } from './toast.types';
+import type { ToastType } from './toast.types';
 
 /**
  * PrismToastComponent

@@ -13,7 +13,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DialogRef, DialogConfig } from './dialog-ref';
+import { DialogRef } from './dialog-ref';
+import type { DialogConfig } from './dialog-ref';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 /**

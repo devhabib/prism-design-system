@@ -3,8 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  TrackByFunction,
 } from '@angular/core';
+import type { TrackByFunction } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableColumn, SortEvent, PageChangeEvent } from './table.interface';
 

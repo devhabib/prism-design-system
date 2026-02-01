@@ -1,13 +1,18 @@
 {
-  "extends": "../projects/showcase-app/tsconfig.app.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "types": ["node"],
-    "noImplicitAny": false,
-    "moduleResolution": "bundler"
+    "importHelpers": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": [
-    "./**/*.ts",
-    "../projects/prism-lib/src/**/*.stories.ts"
+  "exclude": [
+    "../projects/**/*.spec.ts"
   ],
-  "exclude": ["../node_modules"]
+  "include": [
+    "../projects/prism-lib/src/**/*",
+    "../projects/showcase-app/src/**/*",
+    "preview.ts",
+    "main.ts"
+  ]
 }
