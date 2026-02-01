@@ -5,59 +5,56 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:lib": "ng build prism-lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run prism-lib:storybook",
     "build-storybook": "ng run prism-lib:build-storybook"
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.3.16",
-    "@angular/common": "^20.1.0",
-    "@angular/compiler": "^20.1.0",
-    "@angular/core": "^20.1.0",
-    "@angular/forms": "^20.1.0",
-    "@angular/platform-browser": "^20.1.0",
-    "@angular/router": "^20.1.0",
-    "chart.js": "^4.5.1",
-    "ng2-charts": "^8.0.0",
+    "@angular/animations": "^19.0.0",
+    "@angular/cdk": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/compiler": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/platform-browser-dynamic": "^19.0.0",
+    "@angular/router": "^19.0.0",
+    "chart.js": "^4.4.1",
+    "ng2-charts": "^6.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^21.0.5",
-    "@angular/build": "^20.3.14",
-    "@angular/cli": "^20.1.6",
-    "@angular/compiler-cli": "^20.1.0",
-    "@storybook/addon-docs": "^8.6.15",
-    "@storybook/addon-essentials": "^8.6.15",
-    "@storybook/addon-interactions": "^8.6.15",
-    "@storybook/addon-links": "^8.6.15",
-    "@storybook/angular": "^8.6.15",
-    "@storybook/test": "^8.6.15",
+    "@angular-devkit/build-angular": "^19.0.0",
+    "@angular/cli": "^19.0.0",
+    "@angular/compiler-cli": "^19.0.0",
+    "@storybook/addon-docs": "^8.0.0",
+    "@storybook/addon-essentials": "^8.0.0",
+    "@storybook/addon-interactions": "^8.0.0",
+    "@storybook/addon-links": "^8.0.0",
+    "@storybook/angular": "^8.0.0",
+    "@storybook/test": "^8.0.0",
     "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.8.0",
+    "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^20.3.0",
-    "storybook": "^8.6.15",
-    "typescript": "~5.8.2"
+    "ng-packagr": "^19.0.0",
+    "storybook": "^8.0.0",
+    "typescript": "~5.6.2"
+  },
+  "overrides": {
+    "@angular/cdk": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "tar": "^7.5.0",
+    "@angular/cli": {
+      "tar": "^7.5.0"
+    }
   }
 }

@@ -48,7 +48,7 @@ import {
                   <prism-input label="Last Name" placeholder="Doe" value="Doe"></prism-input>
                 </prism-grid-item>
                 <prism-grid-item colSpan="2">
-                  <prism-input label="Email Address" type="email" placeholder="john@example.com" value="john@example.com"></prism-input>
+                  <prism-input label="Email Address" type="email" placeholder="john&#64;example.com" value="john&#64;example.com"></prism-input>
                 </prism-grid-item>
                 <prism-grid-item colSpan="2">
                   <prism-input label="Company" placeholder="Acme Inc." value="Acme Inc."></prism-input>
@@ -104,7 +104,7 @@ import {
                   </prism-file-upload>
                 </div>
                 <div class="account-info__name">John Doe</div>
-                <div class="account-info__email">john@example.com</div>
+                <div class="account-info__email">john&#64;example.com</div>
                 <div class="account-info__role">Administrator</div>
               </div>
               <div class="account-stats">

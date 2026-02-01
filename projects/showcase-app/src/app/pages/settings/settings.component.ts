@@ -45,7 +45,7 @@ import { ThemeService } from '../../services/theme.service';
             ></prism-avatar>
             <div class="profile-info">
               <h1 class="profile-name">John Doe</h1>
-              <p class="profile-email">john.doe@example.com</p>
+              <p class="profile-email">john.doe&#64;example.com</p>
             </div>
             <div class="theme-toggle-container">
               <span class="theme-label">{{ themeService.isDarkMode ? 'Dark' : 'Light' }} Mode</span>

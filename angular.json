@@ -71,6 +71,8 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/showcase-app",
+            "index": "projects/showcase-app/src/index.html",
             "browser": "projects/showcase-app/src/main.ts",
             "polyfills": [
               "zone.js"
