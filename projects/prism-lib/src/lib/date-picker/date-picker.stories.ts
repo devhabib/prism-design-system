@@ -3,7 +3,6 @@ import { moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PrismDatePickerComponent } from './date-picker.component';
-import { action } from '@storybook/addon-actions';
 
 const meta: Meta<PrismDatePickerComponent> = {
   title: 'Forms/DatePicker',

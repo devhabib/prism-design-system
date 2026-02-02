@@ -3,7 +3,6 @@ import { moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PrismSearchInputComponent } from './search-input.component';
-import { action } from '@storybook/addon-actions';
 
 const meta: Meta<PrismSearchInputComponent> = {
   title: 'Forms/SearchInput',
@@ -47,7 +46,7 @@ export const Default: Story = {
   render: (args) => ({
     props: {
       ...args,
-      onSearchChange: action('searchChange')
+      onSearchChange: (value: string) => console.log('searchChange:', value)
     },
     template: `
       <div style="padding: 2rem; background: #f9fafb;">
@@ -64,7 +63,7 @@ export const CustomPlaceholder: Story = {
   render: (args) => ({
     props: {
       ...args,
-      onSearchChange: action('searchChange')
+      onSearchChange: (value: string) => console.log('searchChange:', value)
     },
     template: `
       <div style="padding: 2rem; background: #f9fafb;">
