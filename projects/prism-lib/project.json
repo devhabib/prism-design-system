@@ -1,0 +1,51 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "prism-lib",
+  "projectType": "library",
+  "sourceRoot": "projects/prism-lib/src",
+  "prefix": "prism",
+  "targets": {
+    "build": {
+      "executor": "@angular/build:ng-packagr",
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/prism-lib/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/prism-lib/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular/build:karma",
+      "options": {
+        "tsConfig": "projects/prism-lib/tsconfig.spec.json"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "configDir": ".storybook",
+        "browserTarget": "showcase-app:build",
+        "port": 6006,
+        "compodoc": false,
+        "styles": [
+          "projects/prism-lib/src/styles/main.scss"
+        ]
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "options": {
+        "configDir": ".storybook",
+        "browserTarget": "showcase-app:build",
+        "outputDir": "dist/storybook",
+        "compodoc": false,
+        "styles": [
+          "projects/prism-lib/src/styles/main.scss"
+        ]
+      }
+    }
+  }
+}
